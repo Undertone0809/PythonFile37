@@ -7,7 +7,7 @@ if __name__ == '__main__':
     # 打开串口，设置串口的端口和波特率
     ser = serial.Serial()
     ser.baudrate = 115200
-    ser.port = "COM1"#注意，只能为COM%d
+    ser.port = "COM5"#注意，只能为COM%d
 
     # 并检查是否成功打开端口
     try:
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     while(1):
         startTime = time.time()
         times = 256
-        #当tiems不等于-1时会执行执行该部分
+        #当times不等于-1时会执行执行该部分
         #即while语句会执行256次
         while (times):
             times -= 1

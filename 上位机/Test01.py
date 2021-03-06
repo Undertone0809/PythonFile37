@@ -1,26 +1,37 @@
-"""
-方法区
-___________________________________________________________________
-"""
+import serial
 
-#用一个变量arr接收字符串
-arr = ''.split()
+def send_message(ser):
+    #设置需要发送的数据
+    words = [0x01,0x04,0x01,0xA1,0x00,0x17,0xE0,0x1A]
 
-"""
-___________________________________________________________________
-"""
-#字符串去空的方法
-def remove(str):
-    return str.replace(" ","")
+    while 1:
+        ser.write(words)
 
-#16进制转数组
-print(int('ff',16))
-a = '01 04 2E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 47 00 00 8F C9'
-b =a.split()
-print(b)
-print(b[0]+b[1])
-print(b[50])
-print("长度为",len(b))
-c =b[45]+b[46]
-print(int(c,16))
-print("_"*60)
+def receive_message(ser):
+    pass
+
+
+if __name__ == '__main__':
+
+    #创建串口实例
+    ser = serial.Serial("COM5",115200,timeout=0.1)
+
+
+    #连接串口
+    try:
+        ser.open()
+    except Exception:
+        print("串口打开失败")
+
+    print("打开成功，串口号COM5")
+    words = [0x01, 0x04, 0x01, 0xA1, 0x00, 0x17, 0xE0, 0x1A]
+    while 1:
+        ser.write(words)
+
+
+
+
+
+
+
+

@@ -7,12 +7,13 @@
 #导包
 from Main import Ui_Form
 from PyQt5.QtWidgets import QWidget,QApplication,QMessageBox
-from PyQt5.QtCore import QTimer,QDateTime
+import pyqtgraph as pg
+from PyQt5.QtCore import QTimer,QRect
 import serial
 import serial.tools.list_ports
 import sys
 
-#创建Edit类
+#创建Edit类,继承在Qtdesigne做好的Ui_Form，继承QWidget控件的特性
 class Edit(Ui_Form,QWidget):
     #定义初始化进程
     def __init__(self):
@@ -24,6 +25,16 @@ class Edit(Ui_Form,QWidget):
 
         #设置一些PushButton的可见性
         self.pushButton_3_Stop.setEnabled(False)
+        self.pushButton_3_RealTimeData.setEnabled(False)
+
+        #添加图表控件
+        self.graphicsView = pg.PlotWidget(self.tab_3)
+        self.graphicsView.setGeometry(QRect(20, 20, 951, 351))
+        self.graphicsView.setObjectName("graphicsView")
+        self.graphicsView.plot(
+            [1, 2, 3, 4, 5, 6, 10, 11, 22, 11, 222, 11, 1, 1, 1, 1, 1, 2, 5, 10, 6, 3, 6, 4, 64, 54, 5, 45, 4, 1],
+            pen='r', symbol='o')
+
 
         # 创建一系列信号
         self.init()
@@ -43,7 +54,7 @@ class Edit(Ui_Form,QWidget):
         """
 
 
-    #创建信号
+    #创建按键绑定信号
     def init(self):
         #串口检测
         self.pushButton_1_JianCeChuanKou.clicked.connect(self.port_check)
@@ -61,7 +72,7 @@ class Edit(Ui_Form,QWidget):
         #定时发送数据
         self.pushButton_3_RealTimeData.clicked.connect(self.data_send_setting)
         #一个QTimer实例
-        self.timer_send = QTimer()
+        self.timer_send = QTimer(self)
         #用QTimer执行周期性发送数据的功能
         self.timer_send.timeout.connect(self.data_send)
 
@@ -72,8 +83,9 @@ class Edit(Ui_Form,QWidget):
         self.timer_receive = QTimer(self)
         self.timer_receive.timeout.connect(self.data_receive)
 
-        # 清除发送窗口
+        # 清除窗口数据
         self.pushButton_5_clear.clicked.connect(self.send_data_clear)
+
 
 
     """
@@ -81,6 +93,10 @@ class Edit(Ui_Form,QWidget):
     ---------------------------------------------------------------
     ---------------------------------------------------------------
     """
+
+    def draw(self):
+        pass
+
 
     # 在底层数据流中的文本框中显示
     # 要先判断是否选中在底层数据流接受数据
@@ -102,7 +118,8 @@ class Edit(Ui_Form,QWidget):
                 for i in range(0, len(data)):
                     out_s = out_s + '{:02X}'.format(data[i]) + ' '
                 self.textBrowser_5.append("接收:" + out_s)
-                self.arr = out_s.split()
+                self.arr = out_s.split()#arr是一个数组
+
                 # arr为接受到数据的数组
                 # 调用数据分析函数
                 # 即点击了实时数据的pushButton才能启动数据分析模式
@@ -110,7 +127,9 @@ class Edit(Ui_Form,QWidget):
                 self.analyse()
 
                 self.data_num_received += num
+                #设置接受数据
                 self.textBrowser_5_receive.setText(str(self.data_num_received))
+                print(self.data_num_received)
 
 
 
@@ -166,6 +185,7 @@ class Edit(Ui_Form,QWidget):
         if self.ser.isOpen():
             self.pushButton_1_LianJie.setEnabled(False)
             self.pushButton_1_DuanKaiLianJie.setEnabled(True)
+            self.pushButton_3_RealTimeData.setEnabled(True)
             QMessageBox.about(self,"Port Information","连接成功")
 
 
@@ -204,11 +224,10 @@ class Edit(Ui_Form,QWidget):
 
 
 
-    #QTimer需要周期性执行的内容
+    #QTimer需要周期性执行向串口发送信息的内容
     def data_send(self):
-        # 传入一个16进制数组
-        self.ser.write(bytes([0x01, 0x04, 0x01, 0xA1, 0x00, 0x17, 0xE0, 0x1A]))
-        self.data_num_sended = self.data_num_sended + 8
+        self.ser.write(bytes([0x01, 0x04, 0x01, 0xA1, 0x00, 0x17, 0xE0, 0x1A]))# 向传感器发送一个一个16进制数组
+        self.data_num_sended = self.data_num_sended + 8 #已接收的数据量+8
         self.textBrowser_5_send.setText(str(self.data_num_sended))
 
         if self.checkBox_5_DisplayOutput.isChecked():
@@ -232,7 +251,7 @@ class Edit(Ui_Form,QWidget):
     def analyse(self):
         # 温度可视化
         # 转换后的温度除10
-        self.textBrowser_3_Temperture.setText(str((int(self.arr[45] + self.arr[46], 16) / 10)))
+        #self.textBrowser_3_Temperture.setText(str((int(self.arr[42] + self.arr[43], 16) / 10)))
 
         # 频率可视化
         self.textBrowser_3_Frequency_X.setText(str((int(self.arr[3] + self.arr[4], 16))))
@@ -256,11 +275,11 @@ class Edit(Ui_Form,QWidget):
 
 
 
-
-
     # 清除显示
     def send_data_clear(self):
         self.textBrowser_5.setText("")
+        self.textBrowser_5_receive.setText("0")
+        self.textBrowser_5_send.setText("0")
 
 
 if __name__ == '__main__':
