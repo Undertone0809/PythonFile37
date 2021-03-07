@@ -216,6 +216,7 @@ class Edit(Ui_Form,QWidget):
 
     #设定运行周期
     def data_send_setting(self):
+        #传入毫秒数
         self.timer_send.start(int(self.textEdit_3_OutputFrequency.toPlainText()))
         QMessageBox.about(self,"Message","正在实时发送数据")
         self.pushButton_3_RealTimeData.setEnabled(False)
@@ -283,10 +284,10 @@ class Edit(Ui_Form,QWidget):
 
 
 if __name__ == '__main__':
-    import qdarkstyle
+    #import qdarkstyle
     app = QApplication(sys.argv)
     myshow =  Edit()
     myshow.show()
-    # app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+    #app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
 
     sys.exit(app.exec_())

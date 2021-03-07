@@ -10,9 +10,29 @@ class person:
         self.age =agrs.get("age")
         self.printMessage()
 
+
     def printMessage(self):
         print(self.age)
         print(self.name)
 
 
-zhangsan =person(name="小明",age="18")
+p1 = person(name="小明", age="18")
+p2 = person(age="18",name="小明")
+p3 = person(age="18")
+p4 = person(name="小明")
+
+
+
+class student:
+    def __init__(self,age,name):
+        self.age = age
+        self.name =name
+        self.printMessage()
+
+    def printMessage(self):
+        print(self.age)
+        print(self.name)
+
+
+if __name__ == '__main__':
+    jack =student(name="jack", age="22")
