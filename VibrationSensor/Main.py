@@ -920,7 +920,7 @@ class Ui_Form(object):
         self.gridLayout_3.addWidget(self.tabWidget, 0, 1, 1, 1)
 
         self.retranslateUi(Form)
-        self.tabWidget.setCurrentIndex(3)
+        self.tabWidget.setCurrentIndex(0)
         self.pushButton_2_save.clicked.connect(self.textEdit_2_X_acceleration.copy)
         QtCore.QMetaObject.connectSlotsByName(Form)
 

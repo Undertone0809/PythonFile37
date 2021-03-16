@@ -35,6 +35,10 @@ if __name__ == '__main__':
         while (times):
             times -= 1
             s = ser.write(words)
+            mid =ser.read()
+            print(mid)
+
+
 
         #执行
         endTime = time.time()

@@ -8,10 +8,25 @@
 from Main import Ui_Form
 from PyQt5.QtWidgets import QWidget,QApplication,QMessageBox
 import pyqtgraph as pg
-from PyQt5.QtCore import QTimer,QRect
+from PyQt5.QtCore import QTimer,QRect,QThread,pyqtSignal
 import serial
 import serial.tools.list_ports
 import sys
+import time
+
+#创建检测串口线程
+# class serialThread(QThread):
+#     oneSecondTriger = pyqtSignal()
+#
+#     def __init__(self):
+#         super(serialThread,self).__init__()
+#
+#     def run(self):
+#         while True:
+#             self.oneSecondTriger.emit()
+#             time.sleep(1)
+
+
 
 #创建Edit类,继承在Qtdesigne做好的Ui_Form，继承QWidget控件的特性
 class Edit(Ui_Form,QWidget):
@@ -69,7 +84,7 @@ class Edit(Ui_Form,QWidget):
         #关闭串口
         self.pushButton_1_DuanKaiLianJie.clicked.connect(self.port_close)
 
-        #定时发送数据
+        #定时发送数据：点击后发送同时接受数据
         self.pushButton_3_RealTimeData.clicked.connect(self.data_send_setting)
         #一个QTimer实例
         self.timer_send = QTimer(self)
@@ -87,6 +102,13 @@ class Edit(Ui_Form,QWidget):
         self.pushButton_5_clear.clicked.connect(self.send_data_clear)
 
 
+        #检测串口线程
+        # self.timeThread = serialThread()
+        # self.timeThread.oneSecondTriger.connect(self.port_check)
+        # #在串口连接成功后关闭线程
+        # self.timeThread.start()
+
+
 
     """
     这里为函数工作台
@@ -94,12 +116,71 @@ class Edit(Ui_Form,QWidget):
     ---------------------------------------------------------------
     """
 
+    #画图的方法
     def draw(self):
         pass
 
+    # '''
+    # 将bytes的16进制表示转换为字符串10进制表示形式
+    # '''
+    # def hexShow(self):
+    #
+    #     try:
+    #         result = ''
+    #         hLen = len(self.receive_data)
+    #         for i in range(hLen):
+    #             mid = self.receive_data[i]
+    #
+    #             # 不足两位，则补0,以16进制表示bytes数据流
+    #             # hhex为单个元素
+    #
+    #             hhex = '%02x' % mid
+    #             result += hhex + ' '
+    #         return result
+    #     except Exception as e:
+    #         print("---异常---：", e)
+    #
+    #
+    # '''
+    # 将bytes类型的data转换为数组
+    # '''
+    # def hexArray(self):
+    #     arr = []
+    #     try:
+    #         result = ''
+    #         hLen = len(self.receive_data)
+    #         for i in range(hLen):
+    #             mid = self.receive_data[i]
+    #
+    #             # 不足两位，则补0,以16进制表示bytes数据流
+    #             # hhex为单个元素
+    #             hhex = '%02x' % mid
+    #             arr.append(hhex)
+    #         return arr
+    #     except Exception as e:
+    #         print("---异常---：", e)
+    #
+    # def data_receive(self):
+    #     if self.pushButton_3_RealTimeData.isDown() & self.checkBox_5_DisplayInput.isChecked():
+    #         try:
+    #             #接受到的传感器信息
+    #             self.receive_data =self.ser.read_all()
+    #             #将信息转换为数组形式
+    #             self.arr =self.hexArray()
+    #             print(self.receive_data)
+    #             #数组数据解析
+    #             self.analyse()
+    #             #在数据流中显示信息
+    #             self.receive_str = '接受:'+ str(self.hexShow())
+    #             self.textBrowser_5_receive.setText(self.receive_str)
+    #         except Exception as e:
+    #             print('Warning:',e)
 
-    # 在底层数据流中的文本框中显示
-    # 要先判断是否选中在底层数据流接受数据
+
+
+
+    #在底层数据流中的文本框中显示
+    #要先判断是否选中在底层数据流接受数据
     def data_receive(self):
         if self.checkBox_5_DisplayInput.isChecked():
             try:
@@ -119,17 +200,23 @@ class Edit(Ui_Form,QWidget):
                     out_s = out_s + '{:02X}'.format(data[i]) + ' '
                 self.textBrowser_5.append("接收:" + out_s)
                 self.arr = out_s.split()#arr是一个数组
+                print(self.arr)
 
-                # arr为接受到数据的数组
-                # 调用数据分析函数
-                # 即点击了实时数据的pushButton才能启动数据分析模式
-                # 方法串口接口到无效信息导致乱码
-                self.analyse()
 
-                self.data_num_received += num
-                #设置接受数据
-                self.textBrowser_5_receive.setText(str(self.data_num_received))
-                print(self.data_num_received)
+                #如果产生一场数据，则抛弃
+                #双重判断,04为功能码
+                if len(self.arr)==51 and self.arr[1]=="04":
+                    # arr为接受到数据的数组
+                    # 调用数据分析函数
+                    # 即点击了实时数据的pushButton才能启动数据分析模式
+                    # 方法串口接口到无效信息导致乱码
+                    self.analyse()
+
+                    self.data_num_received += num
+                    #设置接受数据
+                    self.textBrowser_5_receive.setText(str(self.data_num_received))
+                else:
+                    pass
 
 
 
@@ -179,8 +266,8 @@ class Edit(Ui_Form,QWidget):
             QMessageBox.critical(self, "Port Error", "此串口不能被打开！")
             return None
 
-        # 打开串口接收定时器，周期为2ms
-        self.timer_receive.start(2)
+        # 打开串口接收定时器，周期为100ms
+        self.timer_receive.start(20)
 
         if self.ser.isOpen():
             self.pushButton_1_LianJie.setEnabled(False)
@@ -218,6 +305,7 @@ class Edit(Ui_Form,QWidget):
     def data_send_setting(self):
         #传入毫秒数
         self.timer_send.start(int(self.textEdit_3_OutputFrequency.toPlainText()))
+        #开始定时接受数据
         QMessageBox.about(self,"Message","正在实时发送数据")
         self.pushButton_3_RealTimeData.setEnabled(False)
         self.pushButton_3_Stop.setEnabled(True)
@@ -230,6 +318,10 @@ class Edit(Ui_Form,QWidget):
         self.ser.write(bytes([0x01, 0x04, 0x01, 0xA1, 0x00, 0x17, 0xE0, 0x1A]))# 向传感器发送一个一个16进制数组
         self.data_num_sended = self.data_num_sended + 8 #已接收的数据量+8
         self.textBrowser_5_send.setText(str(self.data_num_sended))
+
+        # self.receive_data = self.ser.read_all()
+        # print(self.receive_data)
+
 
         if self.checkBox_5_DisplayOutput.isChecked():
             #在底层数据流中显示发送和接收的信息
@@ -248,11 +340,19 @@ class Edit(Ui_Form,QWidget):
 
 
 
+    '''
+    数据样本：
+    正常状态下len(self.arr)=51
+    
+    ['01', '04', '2E', '00', '49', '00', '2F', '00', '2A', '00', '00', '00', '32', '00', '5A', '00', '00', '00', '0A', '00', '96', '00', '00', '00', '00', '00', '50', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '01', '0E', '00', '00', 'FC', 'C6']
+    [0       1    2      3    4     5      6    7      8   9      10     11   12     13   14     15    16   17   18     19    20   21    22     23    24    25   26     27   28    29     30    31    32   33    34    35     36    37  38       39   40    41     42   43    44   45    46     47    48     49   50]
+    [ 地址码     数据长度 频率：X          Y          z                                                                                                                                                                                                                              温度    温度报警      CRC    ]
+    '''
     # 数据分析
     def analyse(self):
         # 温度可视化
         # 转换后的温度除10
-        #self.textBrowser_3_Temperture.setText(str((int(self.arr[42] + self.arr[43], 16) / 10)))
+        self.textBrowser_3_Temperture.setText(str((int(self.arr[45] + self.arr[46], 16) / 10)))
 
         # 频率可视化
         self.textBrowser_3_Frequency_X.setText(str((int(self.arr[3] + self.arr[4], 16))))
@@ -269,7 +369,7 @@ class Edit(Ui_Form,QWidget):
         self.textBrowser_3_Y_Speed.setText(str((int(self.arr[17] + self.arr[18], 16) / 10)))
         self.textBrowser_3_Z_Speed.setText(str((int(self.arr[23] + self.arr[24], 16) / 10)))
 
-        # 位移可视化
+        # 振幅可视化
         self.textBrowser_3_X_Amplitude.setText(str((int(self.arr[13] + self.arr[14], 16) / 10)))
         self.textBrowser_3_Y_Amplitude.setText(str((int(self.arr[19] + self.arr[20], 16) / 10)))
         self.textBrowser_3_Z_Amplitude.setText(str((int(self.arr[25] + self.arr[26], 16) / 10)))
