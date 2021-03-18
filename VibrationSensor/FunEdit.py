@@ -6,13 +6,13 @@
 
 #导包
 from Main import Ui_Form
-from PyQt5.QtWidgets import QWidget,QApplication,QMessageBox
+from PyQt5.QtWidgets import QWidget,QApplication,QMessageBox,QLineEdit
 import pyqtgraph as pg
 from PyQt5.QtCore import QTimer,QRect,QThread,pyqtSignal
 import serial
 import serial.tools.list_ports
 import sys
-import time
+import pymysql
 
 #创建检测串口线程
 # class serialThread(QThread):
@@ -41,6 +41,10 @@ class Edit(Ui_Form,QWidget):
         #设置一些PushButton的可见性
         self.pushButton_3_Stop.setEnabled(False)
         self.pushButton_3_RealTimeData.setEnabled(False)
+
+        #设置passwordEdit的可见性
+        self.lineEdit_1_localPwd.setEchoMode(QLineEdit.Password)
+        self.lineEdit_1_cloudPwd.setEchoMode(QLineEdit.Password)
 
         #添加图表控件
         self.graphicsView = pg.PlotWidget(self.tab_3)
@@ -108,6 +112,29 @@ class Edit(Ui_Form,QWidget):
         # #在串口连接成功后关闭线程
         # self.timeThread.start()
 
+        #数据校准
+        self.pushButton_2_DataCalibration.clicked.connect(self.data_reset)
+
+        #数据初始化
+        self.pushButton_2_init.clicked.connect(self.data_init)
+
+        #修改参数
+        self.pushButton_2_QueDing.clicked.connect(self.data_modify)
+
+        #保存配置
+        self.pushButton_2_save.clicked.connect(self.data_AttributeSave)
+
+        #导入配置
+        self.pushButton_2_InputData.clicked.connect(self.data_inputData)
+
+        #导出配置
+        self.pushButton_2_OutputData.clicked.connect(self.data_outputData)
+
+        #保存数据到本地
+        self.pushButton_5_SaveData.clicked.connect(self.data_saveLocally)
+
+        #本地数据库连接
+        self.pushButton_1_localMysqlConnect.clicked.connect(self.localMysql_connect)
 
 
     """
@@ -116,110 +143,76 @@ class Edit(Ui_Form,QWidget):
     ---------------------------------------------------------------
     """
 
+    #本地mysql数据库连接
+    def localMysql_connect(self):
+        self.localhost = self.lineEdit_1_localPwd.text()
+        self.localuser = self.lineEdit_1_localAccount.text()
+        self.localPwd = self.lineEdit_1_localPwd.text()
+        self.localDBName = self.lineEdit_1_localDBName.text()
+        try:
+            # 打开数据库
+            '''-----------------------存在问题尚未处理：变量带入后无法连接成功，正在寻找原因-----------------------------------'''
+            self.db = pymysql.connect(host=self.localhost, user=self.localuser,
+                                      password=self.localPwd, database=self.localDBName)
+            QMessageBox.about(self,"message","连接成功")
+        except:
+            QMessageBox.critical(self,"warning","连接失败，出现异常")
+
+    #数据本地保存
+    def data_saveLocally(self):
+        pass
+
+
+    #导出配置
+    #将所有的数据按照顺序保存
+    def data_outputData(self):
+        QMessageBox.about(self, "message", "暂未实现")
+
+    #导入配置
+    #导入配置需要一套自己的文件读写规范
+    def data_inputData(self):
+        QMessageBox.about(self,"message","暂未实现")
+
+    #保存配置，保存配置意味着下次打开的界面配置还是现在的情况
+    def data_AttributeSave(self):
+        QMessageBox.about(self,"message","暂未实现")
+
+    def data_modify(self):
+        QMessageBox.about(self,"message","暂未实现")
+
+
+    '''----------------------------待测试--------------------------------------------'''
+    # 数据复位设置
+    def data_reset(self):
+        try:
+            # 写入重置数据的参数
+            # 恢复出厂配置
+            self.ser.write(bytes([0x01, 0x06, 0x00, 0x7F, 0x00, 0x01, 0x79, 0xD2]))
+            # 确认发送
+            self.ser.write(bytes([0x01, 0x06, 0x00, 0xC7, 0x00, 0x01, 0xF9, 0xF7]))
+
+            QMessageBox.about(self, "message", "复位成功")
+        except:
+            QMessageBox.critical(self, 'Error', '重置错误')
+
+
+    '''----------------------------待测试--------------------------------------------'''
+    #恢复出厂设置(初始化)
+    def data_init(self):
+        try:
+            #写入重置数据的参数
+            # 恢复出厂配置
+            self.ser.write(bytes([0x01, 0x06, 0x00, 0x7F, 0x00, 0x01, 0x79, 0xD2]))
+            # 确认发送
+            self.ser.write(bytes([0x01, 0x06, 0x00, 0xC7, 0x00, 0x01, 0xF9, 0xF7]))
+
+            QMessageBox.about(self,"message","恢复出厂设置成功")
+        except:
+            QMessageBox.critical(self,'Error','重置错误')
+
     #画图的方法
     def draw(self):
         pass
-
-    # '''
-    # 将bytes的16进制表示转换为字符串10进制表示形式
-    # '''
-    # def hexShow(self):
-    #
-    #     try:
-    #         result = ''
-    #         hLen = len(self.receive_data)
-    #         for i in range(hLen):
-    #             mid = self.receive_data[i]
-    #
-    #             # 不足两位，则补0,以16进制表示bytes数据流
-    #             # hhex为单个元素
-    #
-    #             hhex = '%02x' % mid
-    #             result += hhex + ' '
-    #         return result
-    #     except Exception as e:
-    #         print("---异常---：", e)
-    #
-    #
-    # '''
-    # 将bytes类型的data转换为数组
-    # '''
-    # def hexArray(self):
-    #     arr = []
-    #     try:
-    #         result = ''
-    #         hLen = len(self.receive_data)
-    #         for i in range(hLen):
-    #             mid = self.receive_data[i]
-    #
-    #             # 不足两位，则补0,以16进制表示bytes数据流
-    #             # hhex为单个元素
-    #             hhex = '%02x' % mid
-    #             arr.append(hhex)
-    #         return arr
-    #     except Exception as e:
-    #         print("---异常---：", e)
-    #
-    # def data_receive(self):
-    #     if self.pushButton_3_RealTimeData.isDown() & self.checkBox_5_DisplayInput.isChecked():
-    #         try:
-    #             #接受到的传感器信息
-    #             self.receive_data =self.ser.read_all()
-    #             #将信息转换为数组形式
-    #             self.arr =self.hexArray()
-    #             print(self.receive_data)
-    #             #数组数据解析
-    #             self.analyse()
-    #             #在数据流中显示信息
-    #             self.receive_str = '接受:'+ str(self.hexShow())
-    #             self.textBrowser_5_receive.setText(self.receive_str)
-    #         except Exception as e:
-    #             print('Warning:',e)
-
-
-
-
-    #在底层数据流中的文本框中显示
-    #要先判断是否选中在底层数据流接受数据
-    def data_receive(self):
-        if self.checkBox_5_DisplayInput.isChecked():
-            try:
-                #num返回接收缓存中的字节数
-                num = self.ser.inWaiting()
-            except:
-                self.port_close()
-                return None
-            if num > 0:
-                #读取所有字节
-                data = self.ser.read(num)
-                #num返回所有字节的长度
-                num = len(data)
-                # hex显示
-                out_s = ''
-                for i in range(0, len(data)):
-                    out_s = out_s + '{:02X}'.format(data[i]) + ' '
-                self.textBrowser_5.append("接收:" + out_s)
-                self.arr = out_s.split()#arr是一个数组
-                print(self.arr)
-
-
-                #如果产生一场数据，则抛弃
-                #双重判断,04为功能码
-                if len(self.arr)==51 and self.arr[1]=="04":
-                    # arr为接受到数据的数组
-                    # 调用数据分析函数
-                    # 即点击了实时数据的pushButton才能启动数据分析模式
-                    # 方法串口接口到无效信息导致乱码
-                    self.analyse()
-
-                    self.data_num_received += num
-                    #设置接受数据
-                    self.textBrowser_5_receive.setText(str(self.data_num_received))
-                else:
-                    pass
-
-
-
 
 
     """
@@ -336,6 +329,106 @@ class Edit(Ui_Form,QWidget):
         QMessageBox.about(self,"Message","已关闭")
         self.pushButton_3_Stop.setEnabled(False)
         self.pushButton_3_RealTimeData.setEnabled(True)
+
+
+
+    # '''
+    # 将bytes的16进制表示转换为字符串10进制表示形式
+    # '''
+    # def hexShow(self):
+    #
+    #     try:
+    #         result = ''
+    #         hLen = len(self.receive_data)
+    #         for i in range(hLen):
+    #             mid = self.receive_data[i]
+    #
+    #             # 不足两位，则补0,以16进制表示bytes数据流
+    #             # hhex为单个元素
+    #
+    #             hhex = '%02x' % mid
+    #             result += hhex + ' '
+    #         return result
+    #     except Exception as e:
+    #         print("---异常---：", e)
+    #
+    #
+    # '''
+    # 将bytes类型的data转换为数组
+    # '''
+    # def hexArray(self):
+    #     arr = []
+    #     try:
+    #         result = ''
+    #         hLen = len(self.receive_data)
+    #         for i in range(hLen):
+    #             mid = self.receive_data[i]
+    #
+    #             # 不足两位，则补0,以16进制表示bytes数据流
+    #             # hhex为单个元素
+    #             hhex = '%02x' % mid
+    #             arr.append(hhex)
+    #         return arr
+    #     except Exception as e:
+    #         print("---异常---：", e)
+    #
+    # def data_receive(self):
+    #     if self.pushButton_3_RealTimeData.isDown() & self.checkBox_5_DisplayInput.isChecked():
+    #         try:
+    #             #接受到的传感器信息
+    #             self.receive_data =self.ser.read_all()
+    #             #将信息转换为数组形式
+    #             self.arr =self.hexArray()
+    #             print(self.receive_data)
+    #             #数组数据解析
+    #             self.analyse()
+    #             #在数据流中显示信息
+    #             self.receive_str = '接受:'+ str(self.hexShow())
+    #             self.textBrowser_5_receive.setText(self.receive_str)
+    #         except Exception as e:
+    #             print('Warning:',e)
+
+
+
+
+    #在底层数据流中的文本框中显示
+    #要先判断是否选中在底层数据流接受数据
+    def data_receive(self):
+        if self.checkBox_5_DisplayInput.isChecked():
+            try:
+                #num返回接收缓存中的字节数
+                num = self.ser.inWaiting()
+            except:
+                self.port_close()
+                return None
+            if num > 0:
+                #读取所有字节
+                data = self.ser.read(num)
+                #num返回所有字节的长度
+                num = len(data)
+                # hex显示
+                out_s = ''
+                for i in range(0, len(data)):
+                    out_s = out_s + '{:02X}'.format(data[i]) + ' '
+                self.arr = out_s.split()#arr是一个数组
+                print(self.arr)
+
+
+                #如果产生一场数据，则抛弃
+                #双重判断,04为功能码
+                if len(self.arr)==51 and self.arr[1]=="04":
+                    # arr为接受到数据的数组
+                    # 调用数据分析函数
+                    # 即点击了实时数据的pushButton才能启动数据分析模式
+                    # 方法串口接口到无效信息导致乱码
+                    self.analyse()
+
+                    self.textBrowser_5.append("接收:" + out_s)
+                    self.data_num_received += num
+                    #设置接受数据
+                    self.textBrowser_5_receive.setText(str(self.data_num_received))
+                else:
+                    pass
 
 
 

@@ -1,3 +1,5 @@
-arr ='01 04 2E 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 01 47 00 00 8F C9'
-brr =arr.split()
-print(len(brr))
+import pymysql
+
+db = pymysql.connect(host="localhost", user="root", password="lzn123", database="mysql")
+
+cursor = db.cursor()  # 数据库操作
