@@ -131,10 +131,13 @@ class Edit(Ui_Form,QWidget):
         self.pushButton_2_OutputData.clicked.connect(self.data_outputData)
 
         #保存数据到本地
-        self.pushButton_5_SaveData.clicked.connect(self.data_saveLocally)
+        self.pushButton_5_SaveToFile.clicked.connect(self.data_saveLocally)
 
         #本地数据库连接
         self.pushButton_1_localMysqlConnect.clicked.connect(self.localMysql_connect)
+
+        #云端数据库连接
+        self.pushButton_1_cloudMysqlConnect.clicked.connect(self.cloudMysql_connect)
 
 
     """
@@ -142,17 +145,39 @@ class Edit(Ui_Form,QWidget):
     ---------------------------------------------------------------
     ---------------------------------------------------------------
     """
+    def cloudMysql_connect(self):
+        self.cloudhost = self.lineEdit_1_cloudHost.text()
+        self.clouduser = self.lineEdit_1_cloudAccount.text()
+        self.cloudPwd = self.lineEdit_1_cloudPwd.text()
+        self.cloudDBName = self.lineEdit_1_cloudDBName.text()
+        self.cloudPort = int(self.lineEdit_1_cloudPort.text())
+
+        try:
+            #这里需要多线程！！！！
+            # 连接数据库
+            self.cloudConn = pymysql.connect(host=self.cloudhost, user=self.clouduser,
+                                             password=self.cloudPwd, db=self.cloudDBName,port=self.cloudPort)
+
+            # self.cloudConn = pymysql.connect(host='rm-bp1o0649d1hoda9z2wo.mysql.rds.aliyuncs.com', user='user01',
+            #                        password='Lzn123456',
+            #                        db='vibrationsensor', port=3306, charset='utf8')
+            QMessageBox.about(self,'message','连接成功')
+            self.cursor = self.cloudConn.cursor()
+        except Exception as e:
+            QMessageBox.critical(self,'warning','连接失败')
+            print(e)
 
     #本地mysql数据库连接
     def localMysql_connect(self):
-        self.localhost = self.lineEdit_1_localPwd.text()
+        self.localhost = self.lineEdit_1_localHost.text()
         self.localuser = self.lineEdit_1_localAccount.text()
         self.localPwd = self.lineEdit_1_localPwd.text()
         self.localDBName = self.lineEdit_1_localDBName.text()
         try:
             # 打开数据库
+            # 这里需要多线程！！！！
             '''-----------------------存在问题尚未处理：变量带入后无法连接成功，正在寻找原因-----------------------------------'''
-            self.db = pymysql.connect(host=self.localhost, user=self.localuser,
+            self.localConn = pymysql.connect(host=self.localhost, user=self.localuser,
                                       password=self.localPwd, database=self.localDBName)
             QMessageBox.about(self,"message","连接成功")
         except:
@@ -443,6 +468,8 @@ class Edit(Ui_Form,QWidget):
     '''
     # 数据分析
     def analyse(self):
+        #self.temperture =
+
         # 温度可视化
         # 转换后的温度除10
         self.textBrowser_3_Temperture.setText(str((int(self.arr[45] + self.arr[46], 16) / 10)))
