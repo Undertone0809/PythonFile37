@@ -145,6 +145,10 @@ class Edit(Ui_Form,QWidget):
     ---------------------------------------------------------------
     ---------------------------------------------------------------
     """
+
+
+
+
     def cloudMysql_connect(self):
         self.cloudhost = self.lineEdit_1_cloudHost.text()
         self.clouduser = self.lineEdit_1_cloudAccount.text()
@@ -192,6 +196,9 @@ class Edit(Ui_Form,QWidget):
     #数据保存到数据库
     def data_saveToCloudDB(self):
 
+        #如果数据戳中没有内容，则报错
+        if(self.lineEdit_5_DataFlag.text()==''):
+            QMessageBox.critical(self,'message','请设置数据戳标记本次记录的数据')
         pass
 
 
