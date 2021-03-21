@@ -164,8 +164,8 @@ class Edit(Ui_Form,QWidget):
             QMessageBox.about(self,'message','连接成功')
             self.cursor = self.cloudConn.cursor()
         except Exception as e:
-            QMessageBox.critical(self,'warning','连接失败')
-            print(e)
+            QMessageBox.critical(self,'warning',str(e))
+            #print(e)
 
     #本地mysql数据库连接
     def localMysql_connect(self):
@@ -173,18 +173,25 @@ class Edit(Ui_Form,QWidget):
         self.localuser = self.lineEdit_1_localAccount.text()
         self.localPwd = self.lineEdit_1_localPwd.text()
         self.localDBName = self.lineEdit_1_localDBName.text()
+        self.localPort =int(self.lineEdit_1_localPort.text())
         try:
             # 打开数据库
             # 这里需要多线程！！！！
-            '''-----------------------存在问题尚未处理：变量带入后无法连接成功，正在寻找原因-----------------------------------'''
             self.localConn = pymysql.connect(host=self.localhost, user=self.localuser,
-                                      password=self.localPwd, database=self.localDBName)
+                                      password=self.localPwd, database=self.localDBName,port=self.localPort)
             QMessageBox.about(self,"message","连接成功")
-        except:
-            QMessageBox.critical(self,"warning","连接失败，出现异常")
+        except Exception as e:
+            QMessageBox.critical(self,"warning",str(e))
+            #print(e)
 
     #数据本地保存
     def data_saveLocally(self):
+        pass
+
+
+    #数据保存到数据库
+    def data_saveToCloudDB(self):
+
         pass
 
 
@@ -468,31 +475,44 @@ class Edit(Ui_Form,QWidget):
     '''
     # 数据分析
     def analyse(self):
-        #self.temperture =
+
 
         # 温度可视化
         # 转换后的温度除10
-        self.textBrowser_3_Temperture.setText(str((int(self.arr[45] + self.arr[46], 16) / 10)))
+        self.temperture = str((int(self.arr[45] + self.arr[46], 16) / 10))
+        self.textBrowser_3_Temperture.setText(self.temperture)
 
         # 频率可视化
-        self.textBrowser_3_Frequency_X.setText(str((int(self.arr[3] + self.arr[4], 16))))
-        self.textBrowser_3_Frequency_Y.setText(str((int(self.arr[5] + self.arr[6], 16))))
-        self.textBrowser_3_Frequency_Z.setText(str((int(self.arr[7] + self.arr[8], 16))))
+        self.frequency_X=str((int(self.arr[3] + self.arr[4], 16)))
+        self.frequency_Y=str((int(self.arr[5] + self.arr[6], 16)))
+        self.frequency_Z=str((int(self.arr[7] + self.arr[8], 16)))
+        self.textBrowser_3_Frequency_X.setText(self.frequency_X)
+        self.textBrowser_3_Frequency_Y.setText(self.frequency_Y)
+        self.textBrowser_3_Frequency_Z.setText(self.frequency_Z)
 
         # 加速度可视化
-        self.textBrowser_3_X_Acceleration.setText(str((int(self.arr[9] + self.arr[10], 16) / 10)))
-        self.textBrowser_3_Y_Acceleration.setText(str((int(self.arr[15] + self.arr[16], 16) / 10)))
-        self.textBrowser_3_Z_Acceleration.setText(str((int(self.arr[21] + self.arr[22], 16) / 10)))
+        self.X_acceleration=str((int(self.arr[9] + self.arr[10], 16) / 10))
+        self.Y_acceleration=str((int(self.arr[15] + self.arr[16], 16) / 10))
+        self.Z_acceleration=str((int(self.arr[21] + self.arr[22], 16) / 10))
+        self.textBrowser_3_X_Acceleration.setText(self.X_acceleration)
+        self.textBrowser_3_Y_Acceleration.setText(self.Y_acceleration)
+        self.textBrowser_3_Z_Acceleration.setText(self.Z_acceleration)
 
         # 速度可视化
-        self.textBrowser_3_X_Speed.setText(str((int(self.arr[11] + self.arr[12], 16) / 10)))
-        self.textBrowser_3_Y_Speed.setText(str((int(self.arr[17] + self.arr[18], 16) / 10)))
-        self.textBrowser_3_Z_Speed.setText(str((int(self.arr[23] + self.arr[24], 16) / 10)))
+        self.X_speed=str((int(self.arr[11] + self.arr[12], 16) / 10))
+        self.Y_speed=str((int(self.arr[17] + self.arr[18], 16) / 10))
+        self.Z_speed=str((int(self.arr[23] + self.arr[24], 16) / 10))
+        self.textBrowser_3_X_Speed.setText(self.X_speed)
+        self.textBrowser_3_Y_Speed.setText(self.Y_speed)
+        self.textBrowser_3_Z_Speed.setText(self.Z_speed)
 
         # 振幅可视化
-        self.textBrowser_3_X_Amplitude.setText(str((int(self.arr[13] + self.arr[14], 16) / 10)))
-        self.textBrowser_3_Y_Amplitude.setText(str((int(self.arr[19] + self.arr[20], 16) / 10)))
-        self.textBrowser_3_Z_Amplitude.setText(str((int(self.arr[25] + self.arr[26], 16) / 10)))
+        self.X_amplitude=str((int(self.arr[13] + self.arr[14], 16) / 10))
+        self.Y_amplitude=str((int(self.arr[19] + self.arr[20], 16) / 10))
+        self.Z_amplitude=str((int(self.arr[25] + self.arr[26], 16) / 10))
+        self.textBrowser_3_X_Amplitude.setText(self.X_amplitude)
+        self.textBrowser_3_Y_Amplitude.setText(self.Y_amplitude)
+        self.textBrowser_3_Z_Amplitude.setText(self.Z_amplitude)
 
 
 

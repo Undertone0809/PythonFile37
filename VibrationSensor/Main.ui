@@ -186,9 +186,9 @@
               <property name="geometry">
                <rect>
                 <x>90</x>
-                <y>110</y>
-                <width>131</width>
-                <height>31</height>
+                <y>100</y>
+                <width>121</width>
+                <height>41</height>
                </rect>
               </property>
               <property name="text">
@@ -331,13 +331,13 @@
               <property name="geometry">
                <rect>
                 <x>90</x>
-                <y>110</y>
-                <width>111</width>
-                <height>16</height>
+                <y>105</y>
+                <width>141</width>
+                <height>31</height>
                </rect>
               </property>
               <property name="text">
-               <string>数据库名：</string>
+               <string>数据库名称：</string>
               </property>
              </widget>
              <widget class="QLineEdit" name="lineEdit_1_cloudDBName">
@@ -3266,9 +3266,9 @@ p, li { white-space: pre-wrap; }
        <widget class="QTextBrowser" name="textBrowser_5">
         <property name="geometry">
          <rect>
-          <x>210</x>
-          <y>40</y>
-          <width>741</width>
+          <x>350</x>
+          <y>30</y>
+          <width>611</width>
           <height>591</height>
          </rect>
         </property>
@@ -3276,7 +3276,7 @@ p, li { white-space: pre-wrap; }
        <widget class="QLabel" name="label">
         <property name="geometry">
          <rect>
-          <x>210</x>
+          <x>350</x>
           <y>10</y>
           <width>171</width>
           <height>21</height>
@@ -3291,7 +3291,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>0</x>
           <y>20</y>
-          <width>201</width>
+          <width>341</width>
           <height>391</height>
          </rect>
         </property>
@@ -3303,7 +3303,7 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>20</x>
            <y>0</y>
-           <width>171</width>
+           <width>301</width>
            <height>201</height>
           </rect>
          </property>
@@ -3389,7 +3389,7 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>90</x>
            <y>220</y>
-           <width>91</width>
+           <width>231</width>
            <height>31</height>
           </rect>
          </property>
@@ -3399,7 +3399,7 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>90</x>
            <y>270</y>
-           <width>91</width>
+           <width>231</width>
            <height>31</height>
           </rect>
          </property>
@@ -3409,7 +3409,7 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>20</x>
            <y>320</y>
-           <width>171</width>
+           <width>301</width>
            <height>28</height>
           </rect>
          </property>
@@ -3423,7 +3423,7 @@ p, li { white-space: pre-wrap; }
          <rect>
           <x>0</x>
           <y>400</y>
-          <width>201</width>
+          <width>341</width>
           <height>221</height>
          </rect>
         </property>
@@ -3435,7 +3435,7 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>10</x>
            <y>130</y>
-           <width>169</width>
+           <width>311</width>
            <height>28</height>
           </rect>
          </property>
@@ -3459,10 +3459,10 @@ p, li { white-space: pre-wrap; }
         <widget class="QLineEdit" name="lineEdit_5_DataFlag">
          <property name="geometry">
           <rect>
-           <x>60</x>
-           <y>40</y>
-           <width>131</width>
-           <height>51</height>
+           <x>50</x>
+           <y>70</y>
+           <width>181</width>
+           <height>21</height>
           </rect>
          </property>
         </widget>
@@ -3471,12 +3471,61 @@ p, li { white-space: pre-wrap; }
           <rect>
            <x>10</x>
            <y>180</y>
-           <width>169</width>
+           <width>311</width>
            <height>28</height>
           </rect>
          </property>
          <property name="text">
           <string>保存到文件夹</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_79">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>70</y>
+           <width>51</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>这是</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_80">
+         <property name="geometry">
+          <rect>
+           <x>240</x>
+           <y>70</y>
+           <width>91</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>段数据</string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_81">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>100</y>
+           <width>121</width>
+           <height>21</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>添加数据戳注释:</string>
+         </property>
+        </widget>
+        <widget class="QLineEdit" name="lineEdit_5_FlagExplain">
+         <property name="geometry">
+          <rect>
+           <x>140</x>
+           <y>100</y>
+           <width>181</width>
+           <height>21</height>
+          </rect>
          </property>
         </widget>
        </widget>
