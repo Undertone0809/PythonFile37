@@ -1,5 +1,4 @@
-import pymysql
-
-db = pymysql.connect(host="localhost", user="root", password="lzn123", database="mysql")
-
-cursor = db.cursor()  # 数据库操作
+if __name__ == '__main__':
+    file = open('传感器data.text','r')
+    data =file.read()
+    print(data)

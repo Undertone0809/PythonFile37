@@ -139,6 +139,11 @@ class Edit(Ui_Form,QWidget):
         #云端数据库连接
         self.pushButton_1_cloudMysqlConnect.clicked.connect(self.cloudMysql_connect)
 
+        #断开本地数据库连接
+        self.pushButton_1_closeLocalConn.clicked.connect(self.close_localConn)
+
+        #断开云数据库连接
+        self.pushButton_1_closeCloudConn.clicked.connect(self.close_cloudConn)
 
     """
     这里为函数工作台
@@ -147,46 +152,30 @@ class Edit(Ui_Form,QWidget):
     """
 
 
+    '''
+    需要实现的步骤
+    添加数据到数据库中-->使用sql语句-->插入
+    成功！
+    '''
+    #本地数据库数据通信测试
+    def data_modify(self):
 
 
-    def cloudMysql_connect(self):
-        self.cloudhost = self.lineEdit_1_cloudHost.text()
-        self.clouduser = self.lineEdit_1_cloudAccount.text()
-        self.cloudPwd = self.lineEdit_1_cloudPwd.text()
-        self.cloudDBName = self.lineEdit_1_cloudDBName.text()
-        self.cloudPort = int(self.lineEdit_1_cloudPort.text())
 
-        try:
-            #这里需要多线程！！！！
-            # 连接数据库
-            self.cloudConn = pymysql.connect(host=self.cloudhost, user=self.clouduser,
-                                             password=self.cloudPwd, db=self.cloudDBName,port=self.cloudPort)
+        #测试读取数据
+        # self.num =  self.local_cursor.execute('select * from emp')
+        #
+        # for i in range(self.num):
+        #     print(self.local_cursor.fetchone())
+        pass
 
-            # self.cloudConn = pymysql.connect(host='rm-bp1o0649d1hoda9z2wo.mysql.rds.aliyuncs.com', user='user01',
-            #                        password='Lzn123456',
-            #                        db='vibrationsensor', port=3306, charset='utf8')
-            QMessageBox.about(self,'message','连接成功')
-            self.cursor = self.cloudConn.cursor()
-        except Exception as e:
-            QMessageBox.critical(self,'warning',str(e))
-            #print(e)
 
-    #本地mysql数据库连接
-    def localMysql_connect(self):
-        self.localhost = self.lineEdit_1_localHost.text()
-        self.localuser = self.lineEdit_1_localAccount.text()
-        self.localPwd = self.lineEdit_1_localPwd.text()
-        self.localDBName = self.lineEdit_1_localDBName.text()
-        self.localPort =int(self.lineEdit_1_localPort.text())
-        try:
-            # 打开数据库
-            # 这里需要多线程！！！！
-            self.localConn = pymysql.connect(host=self.localhost, user=self.localuser,
-                                      password=self.localPwd, database=self.localDBName,port=self.localPort)
-            QMessageBox.about(self,"message","连接成功")
-        except Exception as e:
-            QMessageBox.critical(self,"warning",str(e))
-            #print(e)
+
+
+
+
+
+
 
     #数据本地保存
     def data_saveLocally(self):
@@ -216,8 +205,6 @@ class Edit(Ui_Form,QWidget):
     def data_AttributeSave(self):
         QMessageBox.about(self,"message","暂未实现")
 
-    def data_modify(self):
-        QMessageBox.about(self,"message","暂未实现")
 
 
     '''----------------------------待测试--------------------------------------------'''
@@ -484,44 +471,117 @@ class Edit(Ui_Form,QWidget):
     def analyse(self):
 
 
+        self.conn_data = {self.time,self.x_frequency,self.y_frequency,self.z_frequency,
+                          self.x_acceleration,self.y_acceleration,self.z_acceleration,
+                          self.x_speed,self.y_speed,self.z_speed,self.x_amplitude,self.
+                              y_amplitude,self.z_amplitude,self.temperture,self.flag}
+
+
+        self.flag = self.lineEdit_5_DataFlag.text()
+        self.flag_explain = self.lineEdit_5_FlagExplain.text()
+
         # 温度可视化
         # 转换后的温度除10
         self.temperture = str((int(self.arr[45] + self.arr[46], 16) / 10))
         self.textBrowser_3_Temperture.setText(self.temperture)
 
         # 频率可视化
-        self.frequency_X=str((int(self.arr[3] + self.arr[4], 16)))
-        self.frequency_Y=str((int(self.arr[5] + self.arr[6], 16)))
-        self.frequency_Z=str((int(self.arr[7] + self.arr[8], 16)))
+        self.x_frequency=str((int(self.arr[3] + self.arr[4], 16)))
+        self.y_frequency=str((int(self.arr[5] + self.arr[6], 16)))
+        self.z_frequency=str((int(self.arr[7] + self.arr[8], 16)))
         self.textBrowser_3_Frequency_X.setText(self.frequency_X)
         self.textBrowser_3_Frequency_Y.setText(self.frequency_Y)
         self.textBrowser_3_Frequency_Z.setText(self.frequency_Z)
 
         # 加速度可视化
-        self.X_acceleration=str((int(self.arr[9] + self.arr[10], 16) / 10))
-        self.Y_acceleration=str((int(self.arr[15] + self.arr[16], 16) / 10))
-        self.Z_acceleration=str((int(self.arr[21] + self.arr[22], 16) / 10))
+        self.x_acceleration=str((int(self.arr[9] + self.arr[10], 16) / 10))
+        self.y_acceleration=str((int(self.arr[15] + self.arr[16], 16) / 10))
+        self.z_acceleration=str((int(self.arr[21] + self.arr[22], 16) / 10))
         self.textBrowser_3_X_Acceleration.setText(self.X_acceleration)
         self.textBrowser_3_Y_Acceleration.setText(self.Y_acceleration)
         self.textBrowser_3_Z_Acceleration.setText(self.Z_acceleration)
 
         # 速度可视化
-        self.X_speed=str((int(self.arr[11] + self.arr[12], 16) / 10))
-        self.Y_speed=str((int(self.arr[17] + self.arr[18], 16) / 10))
-        self.Z_speed=str((int(self.arr[23] + self.arr[24], 16) / 10))
+        self.x_speed=str((int(self.arr[11] + self.arr[12], 16) / 10))
+        self.y_speed=str((int(self.arr[17] + self.arr[18], 16) / 10))
+        self.z_speed=str((int(self.arr[23] + self.arr[24], 16) / 10))
         self.textBrowser_3_X_Speed.setText(self.X_speed)
         self.textBrowser_3_Y_Speed.setText(self.Y_speed)
         self.textBrowser_3_Z_Speed.setText(self.Z_speed)
 
         # 振幅可视化
-        self.X_amplitude=str((int(self.arr[13] + self.arr[14], 16) / 10))
-        self.Y_amplitude=str((int(self.arr[19] + self.arr[20], 16) / 10))
-        self.Z_amplitude=str((int(self.arr[25] + self.arr[26], 16) / 10))
+        self.x_amplitude=str((int(self.arr[13] + self.arr[14], 16) / 10))
+        self.y_amplitude=str((int(self.arr[19] + self.arr[20], 16) / 10))
+        self.z_amplitude=str((int(self.arr[25] + self.arr[26], 16) / 10))
         self.textBrowser_3_X_Amplitude.setText(self.X_amplitude)
         self.textBrowser_3_Y_Amplitude.setText(self.Y_amplitude)
         self.textBrowser_3_Z_Amplitude.setText(self.Z_amplitude)
 
 
+    # 云数据库连接
+    def cloudMysql_connect(self):
+        self.cloudhost = self.lineEdit_1_cloudHost.text()
+        self.clouduser = self.lineEdit_1_cloudAccount.text()
+        self.cloudPwd = self.lineEdit_1_cloudPwd.text()
+        self.cloudDBName = self.lineEdit_1_cloudDBName.text()
+        self.cloudPort = int(self.lineEdit_1_cloudPort.text())
+
+        try:
+            # 这里需要多线程！！！！
+            # 连接数据库
+            self.cloudConn = pymysql.connect(host=self.cloudhost, user=self.clouduser,
+                                             password=self.cloudPwd, db=self.cloudDBName, port=self.cloudPort)
+
+            # self.cloudConn = pymysql.connect(host='rm-bp1o0649d1hoda9z2wo.mysql.rds.aliyuncs.com', user='user01',
+            #                        password='Lzn123456',
+            #                        db='vibrationsensor', port=3306, charset='utf8')
+            QMessageBox.about(self, 'message', '连接成功')
+
+            # 创建游标对象
+            self.cloud_cursor = self.cloudConn.cursor()
+        except Exception as e:
+            QMessageBox.critical(self, 'warning', str(e))
+            # print(e)
+
+    # 本地mysql数据库连接
+    def localMysql_connect(self):
+        self.localhost = self.lineEdit_1_localHost.text()
+        self.localuser = self.lineEdit_1_localAccount.text()
+        self.localPwd = self.lineEdit_1_localPwd.text()
+        self.localDBName = self.lineEdit_1_localDBName.text()
+        self.localPort = int(self.lineEdit_1_localPort.text())
+        try:
+            # 打开数据库
+            # 这里需要多线程！！！！
+            self.localConn = pymysql.connect(host=self.localhost, user=self.localuser,
+                                             password=self.localPwd, database=self.localDBName, port=self.localPort)
+            self.local_cursor = self.localConn.cursor()
+            QMessageBox.about(self, "message", "连接成功")
+        except Exception as e:
+            QMessageBox.critical(self, "warning", str(e))
+            # print(e)
+
+
+
+    # 关闭本地数据库
+    def close_localConn(self):
+        try:
+            self.local_cursor.close()
+            self.localConn.close()
+            QMessageBox.about(self, 'message', '关闭成功')
+        except Exception as e:
+            self.warning_message = str(e)
+            QMessageBox.critical(self, 'warning', self.warning_message)
+
+    # 关闭云数据库
+    def close_cloudConn(self):
+        try:
+            self.cloud_cursor.close()
+            self.cloudConn.close()
+            QMessageBox.about(self, 'message', '关闭成功')
+        except Exception as e:
+            self.warning_message = str(e)
+            QMessageBox.critical(self, 'warning', self.warning_message)
 
     # 清除显示
     def send_data_clear(self):

@@ -71,7 +71,7 @@
              <widget class="QPushButton" name="pushButton_1_localMysqlConnect">
               <property name="geometry">
                <rect>
-                <x>220</x>
+                <x>120</x>
                 <y>340</y>
                 <width>131</width>
                 <height>41</height>
@@ -208,6 +208,19 @@
                <string>mysql</string>
               </property>
              </widget>
+             <widget class="QPushButton" name="pushButton_1_closeLocalConn">
+              <property name="geometry">
+               <rect>
+                <x>340</x>
+                <y>340</y>
+                <width>131</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>断开</string>
+              </property>
+             </widget>
             </widget>
             <widget class="QWidget" name="tab_8">
              <attribute name="title">
@@ -229,7 +242,7 @@
              <widget class="QPushButton" name="pushButton_1_cloudMysqlConnect">
               <property name="geometry">
                <rect>
-                <x>220</x>
+                <x>120</x>
                 <y>340</y>
                 <width>131</width>
                 <height>41</height>
@@ -351,6 +364,19 @@
               </property>
               <property name="text">
                <string>vibrationsensor</string>
+              </property>
+             </widget>
+             <widget class="QPushButton" name="pushButton_1_closeCloudConn">
+              <property name="geometry">
+               <rect>
+                <x>340</x>
+                <y>340</y>
+                <width>131</width>
+                <height>41</height>
+               </rect>
+              </property>
+              <property name="text">
+               <string>断开</string>
               </property>
              </widget>
             </widget>
