@@ -205,7 +205,7 @@
                </rect>
               </property>
               <property name="text">
-               <string>mysql</string>
+               <string>bjpowernode</string>
               </property>
              </widget>
              <widget class="QPushButton" name="pushButton_1_closeLocalConn">

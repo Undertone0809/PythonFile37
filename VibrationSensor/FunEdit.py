@@ -13,6 +13,7 @@ import serial
 import serial.tools.list_ports
 import sys
 import pymysql
+import time
 
 #创建检测串口线程
 # class serialThread(QThread):
@@ -71,7 +72,10 @@ class Edit(Ui_Form,QWidget):
         """
         这里检测串口要开多线程！！！！！
         """
-
+        #获取一个固定格式的时间:"0000-00-00 00:00:00"
+        self.local_time = time.localtime(time.time())
+        self.date_format_localtime = time.strftime('%Y-%m-%d %H:%M:%S', self.local_time)
+        # print("格式化时间之后为:%s" % date_format_localtime)
 
     #创建按键绑定信号
     def init(self):
@@ -154,26 +158,24 @@ class Edit(Ui_Form,QWidget):
 
     '''
     需要实现的步骤
-    添加数据到数据库中-->使用sql语句-->插入
-    成功！
+    采用模拟数据
     '''
     #本地数据库数据通信测试
     def data_modify(self):
+        self.insert_sql1 ="insert into t_vibrationsensor(time,x_frequency,y_frequency,z_frequency,x_acceleration,y_acceleration,z_acceleration,x_speed,y_speed,z_speed,x_amplitude,y_amplitude,z_amplitude,temperture,flag) values("
+        self.insert_sql2= str(self.date_format_localtime) +"," +str(self.x_frequency) +"," +str(self.y_frequency) +"," +str(self.z_frequency) +"," +str(self.x_acceleration) +"," +str(self.y_acceleration) +"," +str(self.z_acceleration) +"," +str(self.x_speed) +"," +str(self.y_speed) +"," +str(self.z_speed) +"," +str(self.x_amplitude) +"," +str(self.y_amplitude) +"," +str(self.z_amplitude) +"," +str(self.temperture) +","+str(self.flag) +")"
+        print('sql is :',self.insert_sql)
+        print('sql2 is:',self.insert_sql2)
+        self.insert_sql = self.insert_sql1 + self.insert_sql2
+        self.local_cursor.execute(self.insert_sql)
+        #self.local_cursor.execute(self.insert_sql,self.date_format_localtime,self.x_frequency,self.y_frequency,self.z_frequency,self.x_acceleration,self.y_acceleration,self.z_acceleration,self.x_speed,self.y_speed,self.z_speed,self.x_amplitude,self.y_amplitude,self.z_amplitude,self.temperture,self.flag,")")
+        print('insert successfully')
 
-
-
-        #测试读取数据
+        #测试读取数据-->以成功
         # self.num =  self.local_cursor.execute('select * from emp')
         #
         # for i in range(self.num):
         #     print(self.local_cursor.fetchone())
-        pass
-
-
-
-
-
-
 
 
 
@@ -440,7 +442,7 @@ class Edit(Ui_Form,QWidget):
                 print(self.arr)
 
 
-                #如果产生一场数据，则抛弃
+                #如果产生异常数据，则抛弃
                 #双重判断,04为功能码
                 if len(self.arr)==51 and self.arr[1]=="04":
                     # arr为接受到数据的数组

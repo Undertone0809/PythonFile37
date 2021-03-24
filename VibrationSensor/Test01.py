@@ -7,7 +7,11 @@ import time
 if __name__ == '__main__':
     file = open('传感器data.txt','r')
     data =file.read()
-    print(data)
+    #分成数组
+    farr =data.split("\n")
+    for i in range(len(farr)):
+
+        print(farr[i])
 
 
     # 格式化年月日时分秒

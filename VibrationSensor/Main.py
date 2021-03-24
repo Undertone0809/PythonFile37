@@ -1050,7 +1050,7 @@ class Ui_Form(object):
         self.lineEdit_1_localPort.setText(_translate("Form", "3306"))
         self.lineEdit_1_localAccount.setText(_translate("Form", "root"))
         self.label_76.setText(_translate("Form", "数据库名称:"))
-        self.lineEdit_1_localDBName.setText(_translate("Form", "mysql"))
+        self.lineEdit_1_localDBName.setText(_translate("Form", "bjpowernode"))
         self.pushButton_1_closeLocalConn.setText(_translate("Form", "断开"))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_7), _translate("Form", "本地服务器"))
         self.label_72.setText(_translate("Form", "主机名或IP地址:"))
