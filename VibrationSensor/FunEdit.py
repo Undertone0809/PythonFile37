@@ -42,6 +42,8 @@ class Edit(Ui_Form,QWidget):
         #设置一些PushButton的可见性
         self.pushButton_3_Stop.setEnabled(False)
         self.pushButton_3_RealTimeData.setEnabled(False)
+        self.pushButton_1_closeCloudConn.setEnabled(False)
+        self.pushButton_1_closeLocalConn.setEnabled(False)
 
         #设置passwordEdit的可见性
         self.lineEdit_1_localPwd.setEchoMode(QLineEdit.Password)
@@ -275,7 +277,8 @@ class Edit(Ui_Form,QWidget):
         print(self.insert_sql)
         try:
             self.cloud_cursor.execute(self.insert_sql)
-            QMessageBox.about(self,'message','保存成功')
+            print('插入成功')
+            # QMessageBox.about(self,'message','保存成功')
         except Exception as e:
             self.warning_message = str(e)
             QMessageBox.warning(self,'warning',self.warning_message)
@@ -570,9 +573,10 @@ class Edit(Ui_Form,QWidget):
             #                        password='Lzn123456',
             #                        db='vibrationsensor', port=3306, charset='utf8')
             QMessageBox.about(self, 'message', '连接成功')
-
             # 创建游标对象
             self.cloud_cursor = self.cloudConn.cursor()
+            self.pushButton_1_cloudMysqlConnect.setEnabled(False)
+            self.pushButton_1_closeCloudConn.setEnabled(True)
         except Exception as e:
             QMessageBox.critical(self, 'warning', str(e))
             # print(e)
@@ -591,6 +595,8 @@ class Edit(Ui_Form,QWidget):
                                              password=self.localPwd, database=self.localDBName, port=self.localPort,autocommit=True)
             self.local_cursor = self.localConn.cursor()
             QMessageBox.about(self, "message", "连接成功")
+            self.pushButton_1_localMysqlConnect.setEnabled(False)
+            self.pushButton_1_closeLocalConn.setEnabled(True)
         except Exception as e:
             QMessageBox.critical(self, "warning", str(e))
             # print(e)
@@ -601,6 +607,7 @@ class Edit(Ui_Form,QWidget):
         try:
             self.local_cursor.close()
             self.localConn.close()
+            self.pushButton_1_localMysqlConnect.setEnabled(True)
             QMessageBox.about(self, 'message', '关闭成功')
         except Exception as e:
             self.warning_message = str(e)
@@ -612,6 +619,7 @@ class Edit(Ui_Form,QWidget):
             self.cloud_cursor.close()
             self.cloudConn.close()
             QMessageBox.about(self, 'message', '关闭成功')
+            self.pushButton_1_cloudMysqlConnect.setEnabled(True)
         except Exception as e:
             self.warning_message = str(e)
             QMessageBox.critical(self, 'warning', self.warning_message)
