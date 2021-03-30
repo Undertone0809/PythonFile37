@@ -512,6 +512,9 @@ class Ui_Form(object):
         self.pushButton_3_Stop.setEnabled(True)
         self.pushButton_3_Stop.setGeometry(QtCore.QRect(210, 430, 131, 28))
         self.pushButton_3_Stop.setObjectName("pushButton_3_Stop")
+        self.label_82 = QtWidgets.QLabel(self.tab_3)
+        self.label_82.setGeometry(QtCore.QRect(380, 390, 171, 41))
+        self.label_82.setObjectName("label_82")
         self.tabWidget.addTab(self.tab_3, "")
         self.tab_4 = QtWidgets.QWidget()
         self.tab_4.setObjectName("tab_4")
@@ -520,17 +523,14 @@ class Ui_Form(object):
         self.groupBox_3.setTitle("")
         self.groupBox_3.setObjectName("groupBox_3")
         self.layoutWidget_2 = QtWidgets.QWidget(self.groupBox_3)
-        self.layoutWidget_2.setGeometry(QtCore.QRect(319, 486, 407, 30))
+        self.layoutWidget_2.setGeometry(QtCore.QRect(249, 486, 391, 30))
         self.layoutWidget_2.setObjectName("layoutWidget_2")
         self.horizontalLayout_3 = QtWidgets.QHBoxLayout(self.layoutWidget_2)
         self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
         self.horizontalLayout_3.setObjectName("horizontalLayout_3")
-        self.pushButton_12 = QtWidgets.QPushButton(self.layoutWidget_2)
-        self.pushButton_12.setObjectName("pushButton_12")
-        self.horizontalLayout_3.addWidget(self.pushButton_12)
-        self.pushButton_13 = QtWidgets.QPushButton(self.layoutWidget_2)
-        self.pushButton_13.setObjectName("pushButton_13")
-        self.horizontalLayout_3.addWidget(self.pushButton_13)
+        self.pushButton_4_QueDing = QtWidgets.QPushButton(self.layoutWidget_2)
+        self.pushButton_4_QueDing.setObjectName("pushButton_4_QueDing")
+        self.horizontalLayout_3.addWidget(self.pushButton_4_QueDing)
         self.layoutWidget_3 = QtWidgets.QWidget(self.groupBox_3)
         self.layoutWidget_3.setGeometry(QtCore.QRect(50, 150, 69, 330))
         self.layoutWidget_3.setObjectName("layoutWidget_3")
@@ -1004,7 +1004,7 @@ class Ui_Form(object):
         self.groupBox_6.setGeometry(QtCore.QRect(0, 400, 341, 221))
         self.groupBox_6.setObjectName("groupBox_6")
         self.pushButton_5_SaveToCloudDB = QtWidgets.QPushButton(self.groupBox_6)
-        self.pushButton_5_SaveToCloudDB.setGeometry(QtCore.QRect(10, 130, 311, 28))
+        self.pushButton_5_SaveToCloudDB.setGeometry(QtCore.QRect(10, 130, 141, 28))
         self.pushButton_5_SaveToCloudDB.setObjectName("pushButton_5_SaveToCloudDB")
         self.label_77 = QtWidgets.QLabel(self.groupBox_6)
         self.label_77.setGeometry(QtCore.QRect(0, 40, 72, 15))
@@ -1027,11 +1027,14 @@ class Ui_Form(object):
         self.lineEdit_5_FlagExplain = QtWidgets.QLineEdit(self.groupBox_6)
         self.lineEdit_5_FlagExplain.setGeometry(QtCore.QRect(140, 100, 181, 21))
         self.lineEdit_5_FlagExplain.setObjectName("lineEdit_5_FlagExplain")
+        self.pushButton_5_saveToLocalDB = QtWidgets.QPushButton(self.groupBox_6)
+        self.pushButton_5_saveToLocalDB.setGeometry(QtCore.QRect(180, 130, 141, 28))
+        self.pushButton_5_saveToLocalDB.setObjectName("pushButton_5_saveToLocalDB")
         self.tabWidget.addTab(self.tab_5, "")
         self.gridLayout_3.addWidget(self.tabWidget, 0, 1, 1, 1)
 
         self.retranslateUi(Form)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(3)
         self.tabWidget_2.setCurrentIndex(0)
         self.pushButton_2_save.clicked.connect(self.textEdit_2_X_acceleration.copy)
         QtCore.QMetaObject.connectSlotsByName(Form)
@@ -1248,17 +1251,20 @@ class Ui_Form(object):
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'SimSun\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">0</p></body></html>"))
+        self.textEdit_3_OutputFrequency.setMarkdown(_translate("Form", "300\n"
+"\n"
+""))
         self.textEdit_3_OutputFrequency.setHtml(_translate("Form", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
 "</style></head><body style=\" font-family:\'SimSun\'; font-size:11pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">1000</p></body></html>"))
+"<p style=\" margin-top:7px; margin-bottom:7px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">300</p></body></html>"))
         self.label_66.setText(_translate("Form", "℃"))
         self.pushButton_3_RealTimeData.setText(_translate("Form", "实时数据"))
         self.pushButton_3_Stop.setText(_translate("Form", "停止"))
+        self.label_82.setText(_translate("Form", "调试中，暂停使用↑"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("Form", "数据分析"))
-        self.pushButton_12.setText(_translate("Form", "确定"))
-        self.pushButton_13.setText(_translate("Form", "取消"))
+        self.pushButton_4_QueDing.setText(_translate("Form", "确定"))
         self.label_40.setText(_translate("Form", "X轴:"))
         self.label_53.setText(_translate("Form", "Y轴:"))
         self.label_11.setText(_translate("Form", "Z轴:"))
@@ -1389,6 +1395,7 @@ class Ui_Form(object):
         self.label_79.setText(_translate("Form", "这是"))
         self.label_80.setText(_translate("Form", "段数据"))
         self.label_81.setText(_translate("Form", "添加数据戳注释:"))
+        self.pushButton_5_saveToLocalDB.setText(_translate("Form", "保存到本地数据库"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_5), _translate("Form", "底层数据流"))
 
 

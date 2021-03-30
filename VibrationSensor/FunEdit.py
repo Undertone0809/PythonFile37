@@ -52,7 +52,8 @@ class Edit(Ui_Form,QWidget):
         self.graphicsView.setGeometry(QRect(20, 20, 951, 351))
         self.graphicsView.setObjectName("graphicsView")
         self.graphicsView.plot(
-            [1, 2, 3, 4, 5, 6, 10, 11, 22, 11, 222, 11, 1, 1, 1, 1, 1, 2, 5, 10, 6, 3, 6, 4, 64, 54, 5, 45, 4, 1],
+            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+            # [1, 2, 3, 4, 5, 6, 10, 11, 22, 11, 222, 11, 1, 1, 1, 1, 1, 2, 5, 10, 6, 3, 6, 4, 64, 54, 5, 45, 4, 1],
             pen='r', symbol='o')
 
 
@@ -121,9 +122,10 @@ class Edit(Ui_Form,QWidget):
 
         #数据初始化
         self.pushButton_2_init.clicked.connect(self.data_init)
+        self.pushButton_4_QueDing.clicked.connect(self.data_init)
 
         #修改参数
-        self.pushButton_2_QueDing.clicked.connect(self.data_modify)
+        #self.pushButton_2_QueDing.clicked.connect(self.data_modify)
 
         #保存配置
         self.pushButton_2_save.clicked.connect(self.data_AttributeSave)
@@ -149,29 +151,101 @@ class Edit(Ui_Form,QWidget):
         #断开云数据库连接
         self.pushButton_1_closeCloudConn.clicked.connect(self.close_cloudConn)
 
+        #保存数据到本地数据库
+        self.pushButton_5_saveToLocalDB.clicked.connect(self.data_saveToLocalDB)
+
+        #保存到云数据库
+        self.pushButton_5_SaveToCloudDB.clicked.connect(self.data_saveToCloudDB)
+
     """
     这里为函数工作台
     ---------------------------------------------------------------
     ---------------------------------------------------------------
     """
 
+    '''
+    数据样本：
+    正常状态下len(self.arr)=51
+
+    ['01', '04', '2E', '00', '49', '00', '2F', '00', '2A', '00', '00', '00', '32', '00', '5A', '00', '00', '00', '0A', '00', '96', '00', '00', '00', '00', '00', '50', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '01', '0E', '00', '00', 'FC', 'C6']
+    [0       1    2      3    4     5      6    7      8   9      10     11   12     13   14     15    16   17   18     19    20   21    22     23    24    25   26     27   28    29     30    31    32   33    34    35     36    37  38       39   40    41     42   43    44   45    46     47    48     49   50]
+    [ 地址码     数据长度 频率：X          Y          z                                                                                                                                                                                                                              温度    温度报警      CRC    ]
+    '''
+
+    # 数据分析
+    def analyse(self):
+
+        self.flag = self.lineEdit_5_DataFlag.text()
+        self.flag_explain = self.lineEdit_5_FlagExplain.text()
+
+        # 温度可视化
+        # 转换后的温度除10
+        self.temperture = str((int(self.arr[45] + self.arr[46], 16) / 10))
+        self.textBrowser_3_Temperture.setText(self.temperture)
+
+        # 频率可视化
+        self.x_frequency = str((int(self.arr[3] + self.arr[4], 16)))
+        self.y_frequency = str((int(self.arr[5] + self.arr[6], 16)))
+        self.z_frequency = str((int(self.arr[7] + self.arr[8], 16)))
+        self.textBrowser_3_Frequency_X.setText(self.x_frequency)
+        self.textBrowser_3_Frequency_Y.setText(self.y_frequency)
+        self.textBrowser_3_Frequency_Z.setText(self.z_frequency)
+
+        # 加速度可视化
+        self.x_acceleration = str((int(self.arr[9] + self.arr[10], 16) / 10))
+        self.y_acceleration = str((int(self.arr[15] + self.arr[16], 16) / 10))
+        self.z_acceleration = str((int(self.arr[21] + self.arr[22], 16) / 10))
+        self.textBrowser_3_X_Acceleration.setText(self.x_acceleration)
+        self.textBrowser_3_Y_Acceleration.setText(self.y_acceleration)
+        self.textBrowser_3_Z_Acceleration.setText(self.z_acceleration)
+
+        # 速度可视化
+        self.x_speed = str((int(self.arr[11] + self.arr[12], 16) / 10))
+        self.y_speed = str((int(self.arr[17] + self.arr[18], 16) / 10))
+        self.z_speed = str((int(self.arr[23] + self.arr[24], 16) / 10))
+        self.textBrowser_3_X_Speed.setText(self.x_speed)
+        self.textBrowser_3_Y_Speed.setText(self.y_speed)
+        self.textBrowser_3_Z_Speed.setText(self.z_speed)
+
+        # 振幅可视化
+        self.x_amplitude = str((int(self.arr[13] + self.arr[14], 16) / 10))
+        self.y_amplitude = str((int(self.arr[19] + self.arr[20], 16) / 10))
+        self.z_amplitude = str((int(self.arr[25] + self.arr[26], 16) / 10))
+        self.textBrowser_3_X_Amplitude.setText(self.x_amplitude)
+        self.textBrowser_3_Y_Amplitude.setText(self.y_amplitude)
+        self.textBrowser_3_Z_Amplitude.setText(self.z_amplitude)
+
+        self.time = 0
+        self.conn_data = [self.time, self.x_frequency, self.y_frequency, self.z_frequency,
+                          self.x_acceleration, self.y_acceleration, self.z_acceleration,
+                          self.x_speed, self.y_speed, self.z_speed, self.x_amplitude, self.
+                              y_amplitude, self.z_amplitude, self.temperture, self.date_format_localtime]
+
+        # print('conn_data is:', self.conn_data)
 
     '''
     需要实现的步骤
     采用模拟数据
     '''
     #本地数据库数据通信测试
-    def data_modify(self):
-        self.insert_sql1 ="insert into t_vibrationsensor(time,x_frequency,y_frequency,z_frequency,x_acceleration,y_acceleration,z_acceleration,x_speed,y_speed,z_speed,x_amplitude,y_amplitude,z_amplitude,temperture,flag) values("
-        self.insert_sql2= str(self.date_format_localtime) +"," +str(self.x_frequency) +"," +str(self.y_frequency) +"," +str(self.z_frequency) +"," +str(self.x_acceleration) +"," +str(self.y_acceleration) +"," +str(self.z_acceleration) +"," +str(self.x_speed) +"," +str(self.y_speed) +"," +str(self.z_speed) +"," +str(self.x_amplitude) +"," +str(self.y_amplitude) +"," +str(self.z_amplitude) +"," +str(self.temperture) +","+str(self.flag) +")"
-        print('sql is :',self.insert_sql)
-        print('sql2 is:',self.insert_sql2)
+    def data_saveToLocalDB(self):
+        '''
+        demo版本
+        '''
+        self.insert_sql1 = "insert into t_vibrationsensor02(time,x_frequency,y_frequency,z_frequency,x_acceleration,y_acceleration,z_acceleration,x_speed,y_speed,z_speed,x_amplitude,y_amplitude,z_amplitude,temperture) values('"
+        self.insert_sql2 = str(self.date_format_localtime) + "','" + str(self.x_frequency) + "','" + str(
+            self.y_frequency) + "','" + str(self.z_frequency) + "','" + str(self.x_acceleration) + "','" + str(
+            self.y_acceleration) + "','" + str(self.z_acceleration) + "','" + str(self.x_speed) + "','" + str(
+            self.y_speed) + "','" + str(self.z_speed) + "','" + str(self.x_amplitude) + "','" + str(
+            self.y_amplitude) + "','" + str(self.z_amplitude) + "','" + str(self.temperture)  + "')"
         self.insert_sql = self.insert_sql1 + self.insert_sql2
+        print(self.insert_sql)
         self.local_cursor.execute(self.insert_sql)
-        #self.local_cursor.execute(self.insert_sql,self.date_format_localtime,self.x_frequency,self.y_frequency,self.z_frequency,self.x_acceleration,self.y_acceleration,self.z_acceleration,self.x_speed,self.y_speed,self.z_speed,self.x_amplitude,self.y_amplitude,self.z_amplitude,self.temperture,self.flag,")")
-        print('insert successfully')
+        print('插入成功')
 
-        #测试读取数据-->以成功
+
+
+        #测试读取数据-->已成功
         # self.num =  self.local_cursor.execute('select * from emp')
         #
         # for i in range(self.num):
@@ -184,13 +258,28 @@ class Edit(Ui_Form,QWidget):
         pass
 
 
-    #数据保存到数据库
+    #数据保存到云数据库
     def data_saveToCloudDB(self):
 
-        #如果数据戳中没有内容，则报错
-        if(self.lineEdit_5_DataFlag.text()==''):
-            QMessageBox.critical(self,'message','请设置数据戳标记本次记录的数据')
-        pass
+        # #如果数据戳中没有内容，则报错
+        # if(self.lineEdit_5_DataFlag.text()==''):
+        #     QMessageBox.critical(self,'message','请设置数据戳标记本次记录的数据')
+        # pass
+        self.insert_sql1 = "insert into t_vibrationsensor02(time,x_frequency,y_frequency,z_frequency,x_acceleration,y_acceleration,z_acceleration,x_speed,y_speed,z_speed,x_amplitude,y_amplitude,z_amplitude,temperture) values('"
+        self.insert_sql2 = str(self.date_format_localtime) + "','" + str(self.x_frequency) + "','" + str(
+            self.y_frequency) + "','" + str(self.z_frequency) + "','" + str(self.x_acceleration) + "','" + str(
+            self.y_acceleration) + "','" + str(self.z_acceleration) + "','" + str(self.x_speed) + "','" + str(
+            self.y_speed) + "','" + str(self.z_speed) + "','" + str(self.x_amplitude) + "','" + str(
+            self.y_amplitude) + "','" + str(self.z_amplitude) + "','" + str(self.temperture)+ "')"
+        self.insert_sql = self.insert_sql1 + self.insert_sql2
+        print(self.insert_sql)
+        try:
+            self.cloud_cursor.execute(self.insert_sql)
+            QMessageBox.about(self,'message','保存成功')
+        except Exception as e:
+            self.warning_message = str(e)
+            QMessageBox.warning(self,'warning',self.warning_message)
+
 
 
     #导出配置
@@ -439,7 +528,7 @@ class Edit(Ui_Form,QWidget):
                 for i in range(0, len(data)):
                     out_s = out_s + '{:02X}'.format(data[i]) + ' '
                 self.arr = out_s.split()#arr是一个数组
-                print(self.arr)
+                #print(self.arr)
 
 
                 #如果产生异常数据，则抛弃
@@ -461,63 +550,6 @@ class Edit(Ui_Form,QWidget):
 
 
 
-    '''
-    数据样本：
-    正常状态下len(self.arr)=51
-    
-    ['01', '04', '2E', '00', '49', '00', '2F', '00', '2A', '00', '00', '00', '32', '00', '5A', '00', '00', '00', '0A', '00', '96', '00', '00', '00', '00', '00', '50', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '01', '0E', '00', '00', 'FC', 'C6']
-    [0       1    2      3    4     5      6    7      8   9      10     11   12     13   14     15    16   17   18     19    20   21    22     23    24    25   26     27   28    29     30    31    32   33    34    35     36    37  38       39   40    41     42   43    44   45    46     47    48     49   50]
-    [ 地址码     数据长度 频率：X          Y          z                                                                                                                                                                                                                              温度    温度报警      CRC    ]
-    '''
-    # 数据分析
-    def analyse(self):
-
-
-        self.conn_data = {self.time,self.x_frequency,self.y_frequency,self.z_frequency,
-                          self.x_acceleration,self.y_acceleration,self.z_acceleration,
-                          self.x_speed,self.y_speed,self.z_speed,self.x_amplitude,self.
-                              y_amplitude,self.z_amplitude,self.temperture,self.flag}
-
-
-        self.flag = self.lineEdit_5_DataFlag.text()
-        self.flag_explain = self.lineEdit_5_FlagExplain.text()
-
-        # 温度可视化
-        # 转换后的温度除10
-        self.temperture = str((int(self.arr[45] + self.arr[46], 16) / 10))
-        self.textBrowser_3_Temperture.setText(self.temperture)
-
-        # 频率可视化
-        self.x_frequency=str((int(self.arr[3] + self.arr[4], 16)))
-        self.y_frequency=str((int(self.arr[5] + self.arr[6], 16)))
-        self.z_frequency=str((int(self.arr[7] + self.arr[8], 16)))
-        self.textBrowser_3_Frequency_X.setText(self.frequency_X)
-        self.textBrowser_3_Frequency_Y.setText(self.frequency_Y)
-        self.textBrowser_3_Frequency_Z.setText(self.frequency_Z)
-
-        # 加速度可视化
-        self.x_acceleration=str((int(self.arr[9] + self.arr[10], 16) / 10))
-        self.y_acceleration=str((int(self.arr[15] + self.arr[16], 16) / 10))
-        self.z_acceleration=str((int(self.arr[21] + self.arr[22], 16) / 10))
-        self.textBrowser_3_X_Acceleration.setText(self.X_acceleration)
-        self.textBrowser_3_Y_Acceleration.setText(self.Y_acceleration)
-        self.textBrowser_3_Z_Acceleration.setText(self.Z_acceleration)
-
-        # 速度可视化
-        self.x_speed=str((int(self.arr[11] + self.arr[12], 16) / 10))
-        self.y_speed=str((int(self.arr[17] + self.arr[18], 16) / 10))
-        self.z_speed=str((int(self.arr[23] + self.arr[24], 16) / 10))
-        self.textBrowser_3_X_Speed.setText(self.X_speed)
-        self.textBrowser_3_Y_Speed.setText(self.Y_speed)
-        self.textBrowser_3_Z_Speed.setText(self.Z_speed)
-
-        # 振幅可视化
-        self.x_amplitude=str((int(self.arr[13] + self.arr[14], 16) / 10))
-        self.y_amplitude=str((int(self.arr[19] + self.arr[20], 16) / 10))
-        self.z_amplitude=str((int(self.arr[25] + self.arr[26], 16) / 10))
-        self.textBrowser_3_X_Amplitude.setText(self.X_amplitude)
-        self.textBrowser_3_Y_Amplitude.setText(self.Y_amplitude)
-        self.textBrowser_3_Z_Amplitude.setText(self.Z_amplitude)
 
 
     # 云数据库连接
@@ -532,7 +564,7 @@ class Edit(Ui_Form,QWidget):
             # 这里需要多线程！！！！
             # 连接数据库
             self.cloudConn = pymysql.connect(host=self.cloudhost, user=self.clouduser,
-                                             password=self.cloudPwd, db=self.cloudDBName, port=self.cloudPort)
+                                             password=self.cloudPwd, db=self.cloudDBName, port=self.cloudPort,autocommit=True)
 
             # self.cloudConn = pymysql.connect(host='rm-bp1o0649d1hoda9z2wo.mysql.rds.aliyuncs.com', user='user01',
             #                        password='Lzn123456',
@@ -556,13 +588,12 @@ class Edit(Ui_Form,QWidget):
             # 打开数据库
             # 这里需要多线程！！！！
             self.localConn = pymysql.connect(host=self.localhost, user=self.localuser,
-                                             password=self.localPwd, database=self.localDBName, port=self.localPort)
+                                             password=self.localPwd, database=self.localDBName, port=self.localPort,autocommit=True)
             self.local_cursor = self.localConn.cursor()
             QMessageBox.about(self, "message", "连接成功")
         except Exception as e:
             QMessageBox.critical(self, "warning", str(e))
             # print(e)
-
 
 
     # 关闭本地数据库
