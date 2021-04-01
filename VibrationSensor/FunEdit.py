@@ -75,10 +75,7 @@ class Edit(Ui_Form,QWidget):
         """
         这里检测串口要开多线程！！！！！
         """
-        #获取一个固定格式的时间:"0000-00-00 00:00:00"
-        self.local_time = time.localtime(time.time())
-        self.date_format_localtime = time.strftime('%Y-%m-%d %H:%M:%S', self.local_time)
-        # print("格式化时间之后为:%s" % date_format_localtime)
+
 
     #创建按键绑定信号
     def init(self):
@@ -127,7 +124,7 @@ class Edit(Ui_Form,QWidget):
         self.pushButton_4_QueDing.clicked.connect(self.data_init)
 
         #修改参数
-        #self.pushButton_2_QueDing.clicked.connect(self.data_modify)
+        self.pushButton_2_QueDing.clicked.connect(self.data_modify)
 
         #保存配置
         self.pushButton_2_save.clicked.connect(self.data_AttributeSave)
@@ -159,71 +156,25 @@ class Edit(Ui_Form,QWidget):
         #保存到云数据库
         self.pushButton_5_SaveToCloudDB.clicked.connect(self.data_saveToCloudDB)
 
+        #定时器，定时更新date_format_time
+        self.flush_time =self.QTimer(self)
+
+
+
     """
     这里为函数工作台
     ---------------------------------------------------------------
     ---------------------------------------------------------------
     """
 
+
     '''
-    数据样本：
-    正常状态下len(self.arr)=51
-
-    ['01', '04', '2E', '00', '49', '00', '2F', '00', '2A', '00', '00', '00', '32', '00', '5A', '00', '00', '00', '0A', '00', '96', '00', '00', '00', '00', '00', '50', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '00', '01', '0E', '00', '00', 'FC', 'C6']
-    [0       1    2      3    4     5      6    7      8   9      10     11   12     13   14     15    16   17   18     19    20   21    22     23    24    25   26     27   28    29     30    31    32   33    34    35     36    37  38       39   40    41     42   43    44   45    46     47    48     49   50]
-    [ 地址码     数据长度 频率：X          Y          z                                                                                                                                                                                                                              温度    温度报警      CRC    ]
+    插入时间戳
     '''
+    def data_modify(self):
+        pass
 
-    # 数据分析
-    def analyse(self):
 
-        self.flag = self.lineEdit_5_DataFlag.text()
-        self.flag_explain = self.lineEdit_5_FlagExplain.text()
-
-        # 温度可视化
-        # 转换后的温度除10
-        self.temperture = str((int(self.arr[45] + self.arr[46], 16) / 10))
-        self.textBrowser_3_Temperture.setText(self.temperture)
-
-        # 频率可视化
-        self.x_frequency = str((int(self.arr[3] + self.arr[4], 16)))
-        self.y_frequency = str((int(self.arr[5] + self.arr[6], 16)))
-        self.z_frequency = str((int(self.arr[7] + self.arr[8], 16)))
-        self.textBrowser_3_Frequency_X.setText(self.x_frequency)
-        self.textBrowser_3_Frequency_Y.setText(self.y_frequency)
-        self.textBrowser_3_Frequency_Z.setText(self.z_frequency)
-
-        # 加速度可视化
-        self.x_acceleration = str((int(self.arr[9] + self.arr[10], 16) / 10))
-        self.y_acceleration = str((int(self.arr[15] + self.arr[16], 16) / 10))
-        self.z_acceleration = str((int(self.arr[21] + self.arr[22], 16) / 10))
-        self.textBrowser_3_X_Acceleration.setText(self.x_acceleration)
-        self.textBrowser_3_Y_Acceleration.setText(self.y_acceleration)
-        self.textBrowser_3_Z_Acceleration.setText(self.z_acceleration)
-
-        # 速度可视化
-        self.x_speed = str((int(self.arr[11] + self.arr[12], 16) / 10))
-        self.y_speed = str((int(self.arr[17] + self.arr[18], 16) / 10))
-        self.z_speed = str((int(self.arr[23] + self.arr[24], 16) / 10))
-        self.textBrowser_3_X_Speed.setText(self.x_speed)
-        self.textBrowser_3_Y_Speed.setText(self.y_speed)
-        self.textBrowser_3_Z_Speed.setText(self.z_speed)
-
-        # 振幅可视化
-        self.x_amplitude = str((int(self.arr[13] + self.arr[14], 16) / 10))
-        self.y_amplitude = str((int(self.arr[19] + self.arr[20], 16) / 10))
-        self.z_amplitude = str((int(self.arr[25] + self.arr[26], 16) / 10))
-        self.textBrowser_3_X_Amplitude.setText(self.x_amplitude)
-        self.textBrowser_3_Y_Amplitude.setText(self.y_amplitude)
-        self.textBrowser_3_Z_Amplitude.setText(self.z_amplitude)
-
-        self.time = 0
-        self.conn_data = [self.time, self.x_frequency, self.y_frequency, self.z_frequency,
-                          self.x_acceleration, self.y_acceleration, self.z_acceleration,
-                          self.x_speed, self.y_speed, self.z_speed, self.x_amplitude, self.
-                              y_amplitude, self.z_amplitude, self.temperture, self.date_format_localtime]
-
-        # print('conn_data is:', self.conn_data)
 
     '''
     需要实现的步骤
@@ -581,6 +532,9 @@ class Edit(Ui_Form,QWidget):
             QMessageBox.critical(self, 'warning', str(e))
             # print(e)
 
+
+
+
     # 本地mysql数据库连接
     def localMysql_connect(self):
         self.localhost = self.lineEdit_1_localHost.text()
@@ -600,7 +554,6 @@ class Edit(Ui_Form,QWidget):
         except Exception as e:
             QMessageBox.critical(self, "warning", str(e))
             # print(e)
-
 
     # 关闭本地数据库
     def close_localConn(self):
