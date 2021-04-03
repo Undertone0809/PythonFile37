@@ -156,8 +156,6 @@ class Edit(Ui_Form,QWidget):
         #保存到云数据库
         self.pushButton_5_SaveToCloudDB.clicked.connect(self.data_saveToCloudDB)
 
-        #定时器，定时更新date_format_time
-        self.flush_time =self.QTimer(self)
 
 
 
