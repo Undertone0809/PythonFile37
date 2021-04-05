@@ -6,22 +6,10 @@
 
 from PyQt5.QtWidgets import QWidget,QApplication,QFileDialog,QMessageBox
 from UiForm import Ui_Form
-from PyQt5.QtCore import QThread
 import sys,time,pygame
+from test_demo import Operate
 
 
-'''一个暂停播放的线程'''
-class PauseWorker(QThread):
-    def __init__(self):
-        super(PauseWorker, self).__init__()
-
-    # def __del__(self):
-    #     #线程状态改变与线程终止
-    #     self.working = False
-    #     self.wait()
-
-    def run(self):
-        pygame.mixer.music.play()  # 播放
 
 '''编译定义类'''
 class FunEdit(QWidget,Ui_Form):
@@ -30,15 +18,15 @@ class FunEdit(QWidget,Ui_Form):
         super(FunEdit, self).__init__()
         self.setupUi(self)#Ui初始化
         self.init()
-        self.pThread = PauseWorker()#实例化一个线程对象
         pygame.init()  # 初始化音乐播放装置，初始化后才可以使用
+        self.operate = Operate()
 
 
     '''该方法用于信号与槽的绑定'''
     def init(self):
         self.btn_readMusic.clicked.connect(self.readMusic)
-        self.btn_play.clicked.connect(self.start)
-        self.btn_pause.clicked.connect(self.pause)
+        self.btn_start.clicked.connect(self.start)
+
 
     '''读取音频'''
     def readMusic(self):
@@ -52,26 +40,41 @@ class FunEdit(QWidget,Ui_Form):
             return
 
         print(self.fdir)
+
+        #对fdir进行处理
+        self.devide()
+
         self.track =pygame.mixer.music.load(str(self.fdir))#加载音频文件(放入缓存池)
-        self.label_MusicMessage.setText(str(self.fdir))
+        self.label_DirMessage.setText(str(self.fdir))
 
 
-    '''播放'''
+    def devide(self):
+        self.arr =self.fdir.split("/")
+        #倒序输出
+        # self.parent_dir=self.arr[self.arr.len-1]
+        print("*"*60)
+        print(self.arr)
+        self.sub_dirs=self.arr[len(self.arr)-2]+"/"
+        print('sub_dirs:',self.sub_dirs)
+        self.parent_dir=""
+        for i in range(len(self.arr)-2):
+            self.parent_dir+=self.arr[i]
+            if i != len(self.arr)-3:
+                self.parent_dir+="/"
+        self.parent_dir="r"+self.parent_dir
+
+        # 向operate中传入参数
+        self.operate.sub_dirs = [self.sub_dirs]
+        self.operate.parent_dir = self.parent_dir
+
+        print('parent_dir:',self.parent_dir)
+        print("*"*60)
+
+
     def start(self):
-        if self.label_MusicMessage.text()=='暂无':
-            QMessageBox.about(self,'message','当前暂无播放的音乐')
-            return
-        self.pThread.start()
-        self.label_MusicMessage.setText(str(self.fdir))
+        self.label_AnsMessage.setText(str(self.operate.ans[0]))
 
 
-    '''停止播放'''
-    def pause(self):
-        if self.label_MusicMessage.text()=='暂无':
-            QMessageBox.about(self,'message','当前暂无播放的音乐')
-            return
-        pygame.mixer.music.stop()#暂停
-        self.label_MusicMessage.setText("暂停中")
 
 '''主方法运行入口'''
 if __name__ == '__main__':

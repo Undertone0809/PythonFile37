@@ -458,8 +458,6 @@ class Edit(Ui_Form,QWidget):
     #             print('Warning:',e)
 
 
-
-
     #在底层数据流中的文本框中显示
     #要先判断是否选中在底层数据流接受数据
     def data_receive(self):
@@ -498,10 +496,6 @@ class Edit(Ui_Form,QWidget):
                     self.textBrowser_5_receive.setText(str(self.data_num_received))
                 else:
                     pass
-
-
-
-
 
 
     # 云数据库连接
