@@ -10,7 +10,7 @@ import sys,time,pygame
 from test_demo import Operate
 
 
-
+import math
 '''编译定义类'''
 class FunEdit(QWidget,Ui_Form):
     '''初始化各方面信息'''

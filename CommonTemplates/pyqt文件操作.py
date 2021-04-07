@@ -9,7 +9,6 @@ class FileOperation(QWidget, Ui_Form):
     def __init__(self):
         super(FileOperation, self).__init__()
         self.setupUi(self)
-        self.cwd = os.getcwd()  # 获取当前程序文件位置
         self.init()
 
     #信号与槽绑定
@@ -19,8 +18,8 @@ class FileOperation(QWidget, Ui_Form):
         self.pushButton_1.clicked.connect(self.slot_btn_chooseFile)
 
     def readFile(self):
-        fname = QFileDialog.getOpenFileName(self, "Open File", self.cwd, "All Files(*);;Wav(*.wav);;Txt (*.txt)")
-        # 打开文件 返回一个字符串第一个是路径， 第二个是要打开文件的类型
+        fname = QFileDialog.getOpenFileName(self, "Open File","./", "All Files(*);;Wav(*.wav);;Txt (*.txt)")
+        # 该方法返回一个tuple,里面有两个内容，第一个是路径， 第二个是要打开文件的类型，所以用两个变量去接受
         # 如果用户主动关闭文件对话框，则返回值为空
         if fname[0]:  # 判断路径非空
             f = QFile(fname[0])  # 创建文件对象，不创建文件对象也不报错 也可以读文件和写文件
