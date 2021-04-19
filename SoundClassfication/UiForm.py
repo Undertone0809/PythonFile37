@@ -15,8 +15,10 @@ class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
         Form.resize(620, 350)
+        Form.setAutoFillBackground(False)
+        Form.setStyleSheet("#QWidget{border-image: url(:/newPrefix/venv/7d5ec2d06fe2faedeeb246a264698f4.png);}")
         self.horizontalLayoutWidget = QtWidgets.QWidget(Form)
-        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(90, 200, 471, 101))
+        self.horizontalLayoutWidget.setGeometry(QtCore.QRect(20, 190, 471, 101))
         self.horizontalLayoutWidget.setObjectName("horizontalLayoutWidget")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -25,10 +27,11 @@ class Ui_Form(object):
         self.btn_readMusic.setObjectName("btn_readMusic")
         self.horizontalLayout.addWidget(self.btn_readMusic)
         self.btn_start = QtWidgets.QPushButton(self.horizontalLayoutWidget)
+        self.btn_start.setStyleSheet("")
         self.btn_start.setObjectName("btn_start")
         self.horizontalLayout.addWidget(self.btn_start)
         self.verticalLayoutWidget = QtWidgets.QWidget(Form)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(90, 80, 160, 111))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(20, 70, 160, 111))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -40,7 +43,7 @@ class Ui_Form(object):
         self.label.setObjectName("label")
         self.verticalLayout.addWidget(self.label)
         self.verticalLayoutWidget_2 = QtWidgets.QWidget(Form)
-        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(170, 80, 731, 111))
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(100, 70, 731, 111))
         self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -64,6 +67,7 @@ class Ui_Form(object):
         self.label.setText(_translate("Form", "输出结果:"))
         self.label_DirMessage.setText(_translate("Form", "暂无"))
         self.label_AnsMessage.setText(_translate("Form", "暂无"))
+import image
 
 
 if __name__ == "__main__":

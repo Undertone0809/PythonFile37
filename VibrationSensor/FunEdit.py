@@ -8,12 +8,13 @@
 from Main import Ui_Form
 from PyQt5.QtWidgets import QWidget,QApplication,QMessageBox,QLineEdit
 import pyqtgraph as pg
-from PyQt5.QtCore import QTimer,QRect,QThread,pyqtSignal
+from PyQt5.QtCore import *
 import serial
 import serial.tools.list_ports
 import sys
 import pymysql
 import time
+from PyQt5.QtWebEngineWidgets import *
 
 #创建检测串口线程
 # class serialThread(QThread):
@@ -50,14 +51,25 @@ class Edit(Ui_Form,QWidget):
         self.lineEdit_1_cloudPwd.setEchoMode(QLineEdit.Password)
 
         #添加图表控件
-        self.graphicsView = pg.PlotWidget(self.tab_3)
-        self.graphicsView.setGeometry(QRect(20, 20, 951, 351))
-        self.graphicsView.setObjectName("graphicsView")
-        self.graphicsView.plot(
+        self.graphicsView_form = pg.PlotWidget(self.tab_3)
+        self.graphicsView_form.setGeometry(QRect(20, 20, 951, 351))
+        self.graphicsView_form.setObjectName("graphicsView")
+        self.graphicsView_form.plot(
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
             # [1, 2, 3, 4, 5, 6, 10, 11, 22, 11, 222, 11, 1, 1, 1, 1, 1, 2, 5, 10, 6, 3, 6, 4, 64, 54, 5, 45, 4, 1],
             pen='r', symbol='o')
 
+        # self.graphicsView = QtWidgets.QGraphicsView(self.tab_7)
+        # self.graphicsView.setObjectName("graphicsView")
+        # self.gridLayout_6.addWidget(self.graphicsView, 0, 0, 1, 1)
+
+        #加载RDS数据库管理系统
+        self.browser = QWebEngineView(self.tab_7)
+        # 加载外部的web界面
+        #https://dms.aliyun.com/?spm=5176.19908233.0.0.133c1450Zk8UEh&regionId=cn-hangzhou&dbType=mysql&instanceId=rm-bp1o0649d1hoda9z2&instanceSource=RDS
+        #https://www.baidu.com
+        self.browser.load(QUrl('https://dms.aliyun.com/?spm=5176.19908233.0.0.133c1450Zk8UEh&regionId=cn-hangzhou&dbType=mysql&instanceId=rm-bp1o0649d1hoda9z2&instanceSource=RDS'))
+        self.gridLayout_6.addWidget(self.browser, 0, 0, 1, 1)
 
         # 创建一系列信号
         self.init()
@@ -156,7 +168,10 @@ class Edit(Ui_Form,QWidget):
         #保存到云数据库
         self.pushButton_5_SaveToCloudDB.clicked.connect(self.data_saveToCloudDB)
 
-
+        #获取一个固定格式的时间:"0000-00-00 00:00:00"
+        self.local_time = time.localtime(time.time())
+        self.date_format_localtime = time.strftime('%Y-%m-%d %H:%M:%S', self.local_time)
+        # print("格式化时间之后为:%s" % date_format_localtime)
 
 
     """
@@ -232,7 +247,56 @@ class Edit(Ui_Form,QWidget):
             self.warning_message = str(e)
             QMessageBox.warning(self,'warning',self.warning_message)
 
+    # 数据分析
+    def analyse(self):
 
+        self.flag = self.lineEdit_5_DataFlag.text()
+        self.flag_explain = self.lineEdit_5_FlagExplain.text()
+
+        # 温度可视化
+        # 转换后的温度除10
+        self.temperture = str((int(self.arr[45] + self.arr[46], 16) / 10))
+        self.textBrowser_3_Temperture.setText(self.temperture)
+
+        # 频率可视化
+        self.x_frequency = str((int(self.arr[3] + self.arr[4], 16)))
+        self.y_frequency = str((int(self.arr[5] + self.arr[6], 16)))
+        self.z_frequency = str((int(self.arr[7] + self.arr[8], 16)))
+        self.textBrowser_3_Frequency_X.setText(self.x_frequency)
+        self.textBrowser_3_Frequency_Y.setText(self.y_frequency)
+        self.textBrowser_3_Frequency_Z.setText(self.z_frequency)
+
+        # 加速度可视化
+        self.x_acceleration = str((int(self.arr[9] + self.arr[10], 16) / 10))
+        self.y_acceleration = str((int(self.arr[15] + self.arr[16], 16) / 10))
+        self.z_acceleration = str((int(self.arr[21] + self.arr[22], 16) / 10))
+        self.textBrowser_3_X_Acceleration.setText(self.x_acceleration)
+        self.textBrowser_3_Y_Acceleration.setText(self.y_acceleration)
+        self.textBrowser_3_Z_Acceleration.setText(self.z_acceleration)
+
+        # 速度可视化
+        self.x_speed = str((int(self.arr[11] + self.arr[12], 16) / 10))
+        self.y_speed = str((int(self.arr[17] + self.arr[18], 16) / 10))
+        self.z_speed = str((int(self.arr[23] + self.arr[24], 16) / 10))
+        self.textBrowser_3_X_Speed.setText(self.x_speed)
+        self.textBrowser_3_Y_Speed.setText(self.y_speed)
+        self.textBrowser_3_Z_Speed.setText(self.z_speed)
+
+        # 振幅可视化
+        self.x_amplitude = str((int(self.arr[13] + self.arr[14], 16) / 10))
+        self.y_amplitude = str((int(self.arr[19] + self.arr[20], 16) / 10))
+        self.z_amplitude = str((int(self.arr[25] + self.arr[26], 16) / 10))
+        self.textBrowser_3_X_Amplitude.setText(self.x_amplitude)
+        self.textBrowser_3_Y_Amplitude.setText(self.y_amplitude)
+        self.textBrowser_3_Z_Amplitude.setText(self.z_amplitude)
+
+        self.time = 0
+        self.conn_data = [self.time, self.x_frequency, self.y_frequency, self.z_frequency,
+                          self.x_acceleration, self.y_acceleration, self.z_acceleration,
+                          self.x_speed, self.y_speed, self.z_speed, self.x_amplitude, self.
+                              y_amplitude, self.z_amplitude, self.temperture, self.date_format_localtime]
+
+        # print('conn_data is:', self.conn_data)
 
     #导出配置
     #将所有的数据按照顺序保存
@@ -523,8 +587,6 @@ class Edit(Ui_Form,QWidget):
         except Exception as e:
             QMessageBox.critical(self, 'warning', str(e))
             # print(e)
-
-
 
 
     # 本地mysql数据库连接

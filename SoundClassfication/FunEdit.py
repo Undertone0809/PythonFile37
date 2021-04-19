@@ -5,6 +5,7 @@
 # @Software: PyCharm
 
 from PyQt5.QtWidgets import QWidget,QApplication,QFileDialog,QMessageBox
+from PyQt5.QtGui import QPixmap,QPainter
 from UiForm import Ui_Form
 import sys,time,pygame
 from test_demo import Operate
@@ -20,6 +21,11 @@ class FunEdit(QWidget,Ui_Form):
         self.init()
         pygame.init()  # 初始化音乐播放装置，初始化后才可以使用
         self.operate = Operate()
+
+
+        painter = QPainter(self)
+        pixmap = QPixmap("./images/鄱阳湖.jpg")
+        painter.drawPixmap(self.rect(), pixmap)
 
 
     '''该方法用于信号与槽的绑定'''
