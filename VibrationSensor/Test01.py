@@ -1,22 +1,25 @@
-# -*- coding: utf-8 -*-
-# @Time    : 2021/3/24 20:02
-# @Author  : Zeeland
-# @File    : Test01.py
-# @Software: PyCharm
-import time
+import pymysql
+
 if __name__ == '__main__':
-    file = open('传感器data.txt','r')
-    data =file.read()
-    #分成数组
-    farr =data.split("\n")
-    for i in range(len(farr)):
+    try:
+        # 连接数据库
+        conn = pymysql.connect(host='rm-bp1o0649d1hoda9z2wo.mysql.rds.aliyuncs.com', user='user02', password='Lzn123456',
+                               db='vibrationsensor', port=3306, charset='utf8')
+        print('连接数据库成功！')
+        cursor = conn.cursor()
 
-        print(farr[i])
+    except Exception as e:
+        print(e)
 
-
-    # 格式化年月日时分秒
-    # local_time = time.localtime(time.time())
-    # date_format_localtime = time.strftime('%Y-%m-%d %H:%M:%S', local_time)
-    # print("格式化时间之后为:%s" % date_format_localtime)
-
-
+    # "select * from t_vibrationsensor02"
+    sql = 'select * from t_vibrationsensor02  order by id desc  limit 1'
+    cursor.execute(sql)
+    data1 = cursor.fetchone()
+    while True:
+        cursor.execute(sql)
+        data2 = cursor.fetchone()
+        if data1 == data2:
+            pass
+        else:
+            data1 = data2
+            print(data2)

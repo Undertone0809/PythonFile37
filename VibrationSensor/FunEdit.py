@@ -52,7 +52,7 @@ class Edit(Ui_Form,QWidget):
 
         #添加图表控件
         self.graphicsView_form = pg.PlotWidget(self.tab_3)
-        self.graphicsView_form.setGeometry(QRect(20, 20, 951, 351))
+        self.graphicsView_form.setGeometry(QRect(20, 20, 1550, 550))
         self.graphicsView_form.setObjectName("graphicsView")
         self.graphicsView_form.plot(
             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
@@ -84,10 +84,20 @@ class Edit(Ui_Form,QWidget):
         self.data_num_sended =0
         self.textBrowser_5_send.setText(str(self.data_num_sended))
 
+        #标志位,提示是否可以持续传输数据到数据库
+        self.isReadyToTrans = False
+
+
+
+        #获取一个固定格式的时间:"0000-00-00 00:00:00"
+        self.local_time = time.localtime(time.time())
+        self.date_format_localtime = time.strftime('%Y-%m-%d %H:%M:%S', self.local_time)
+        # print("格式化时间之后为:%s" % date_format_localtime)
+
+
         """
         这里检测串口要开多线程！！！！！
         """
-
 
     #创建按键绑定信号
     def init(self):
@@ -136,7 +146,7 @@ class Edit(Ui_Form,QWidget):
         self.pushButton_4_QueDing.clicked.connect(self.data_init)
 
         #修改参数
-        self.pushButton_2_QueDing.clicked.connect(self.data_modify)
+        self.pushButton_2_QueDing.clicked.connect(self.freshTime)
 
         #保存配置
         self.pushButton_2_save.clicked.connect(self.data_AttributeSave)
@@ -163,15 +173,14 @@ class Edit(Ui_Form,QWidget):
         self.pushButton_1_closeCloudConn.clicked.connect(self.close_cloudConn)
 
         #保存数据到本地数据库
-        self.pushButton_5_saveToLocalDB.clicked.connect(self.data_saveToLocalDB)
+        self.pushButton_5_saveToLocalDB.clicked.connect(self.data_saveToDB)
 
         #保存到云数据库
-        self.pushButton_5_SaveToCloudDB.clicked.connect(self.data_saveToCloudDB)
+        self.pushButton_5_SaveToCloudDB.clicked.connect(self.data_saveToDB)
 
-        #获取一个固定格式的时间:"0000-00-00 00:00:00"
-        self.local_time = time.localtime(time.time())
-        self.date_format_localtime = time.strftime('%Y-%m-%d %H:%M:%S', self.local_time)
-        # print("格式化时间之后为:%s" % date_format_localtime)
+        #停止数据传输
+        self.pushButton_5_stopToTransData.clicked.connect(self.stopToTransData)
+
 
 
     """
@@ -180,57 +189,28 @@ class Edit(Ui_Form,QWidget):
     ---------------------------------------------------------------
     """
 
+    def stopToTransData(self):
+        self.pushButton_5_SaveToCloudDB.setEnabled(True)
+        self.isReadyToTrans = False
+
+
+
+
 
     '''
-    插入时间戳
+    获取当前时间
     '''
-    def data_modify(self):
-        pass
-
-
+    def freshTime(self):
+        #获取一个固定格式的时间:"0000-00-00 00:00:00"
+        self.local_time = time.localtime(time.time())
+        self.date_format_localtime = time.strftime('%Y-%m-%d %H:%M:%S', self.local_time)
+        # print("格式化时间之后为:%s" % date_format_localtime)
 
     '''
-    需要实现的步骤
-    采用模拟数据
+    数据传输函数:将数据传输至数据库
     '''
-    #本地数据库数据通信测试
-    def data_saveToLocalDB(self):
-        '''
-        demo版本
-        '''
-        self.insert_sql1 = "insert into t_vibrationsensor02(time,x_frequency,y_frequency,z_frequency,x_acceleration,y_acceleration,z_acceleration,x_speed,y_speed,z_speed,x_amplitude,y_amplitude,z_amplitude,temperture) values('"
-        self.insert_sql2 = str(self.date_format_localtime) + "','" + str(self.x_frequency) + "','" + str(
-            self.y_frequency) + "','" + str(self.z_frequency) + "','" + str(self.x_acceleration) + "','" + str(
-            self.y_acceleration) + "','" + str(self.z_acceleration) + "','" + str(self.x_speed) + "','" + str(
-            self.y_speed) + "','" + str(self.z_speed) + "','" + str(self.x_amplitude) + "','" + str(
-            self.y_amplitude) + "','" + str(self.z_amplitude) + "','" + str(self.temperture)  + "')"
-        self.insert_sql = self.insert_sql1 + self.insert_sql2
-        print(self.insert_sql)
-        self.local_cursor.execute(self.insert_sql)
-        print('插入成功')
-
-
-
-        #测试读取数据-->已成功
-        # self.num =  self.local_cursor.execute('select * from emp')
-        #
-        # for i in range(self.num):
-        #     print(self.local_cursor.fetchone())
-
-
-
-    #数据本地保存
-    def data_saveLocally(self):
-        pass
-
-
-    #数据保存到云数据库
-    def data_saveToCloudDB(self):
-
-        # #如果数据戳中没有内容，则报错
-        # if(self.lineEdit_5_DataFlag.text()==''):
-        #     QMessageBox.critical(self,'message','请设置数据戳标记本次记录的数据')
-        # pass
+    def trans_Data(self):
+        self.freshTime()
         self.insert_sql1 = "insert into t_vibrationsensor02(time,x_frequency,y_frequency,z_frequency,x_acceleration,y_acceleration,z_acceleration,x_speed,y_speed,z_speed,x_amplitude,y_amplitude,z_amplitude,temperture) values('"
         self.insert_sql2 = str(self.date_format_localtime) + "','" + str(self.x_frequency) + "','" + str(
             self.y_frequency) + "','" + str(self.z_frequency) + "','" + str(self.x_acceleration) + "','" + str(
@@ -246,6 +226,64 @@ class Edit(Ui_Form,QWidget):
         except Exception as e:
             self.warning_message = str(e)
             QMessageBox.warning(self,'warning',self.warning_message)
+            print('插入失败',e)
+
+        # 测试读取数据-->已成功
+        # self.num =  self.local_cursor.execute('select * from emp')
+        #
+        # for i in range(self.num):
+        #     print(self.local_cursor.fetchone())
+
+    '''
+    开启持续数据传输模式，间隔时间与查询时间一致
+    设计思路：点击持续数据传输-->判断添加数据戳-->button置灰-->调用‘数据传输函数’(周期与接收传感器的周期一致)
+    所以如果可以执行到最后一步，传递一个允许的标志位给‘定时接收数据函数’,让其调用'数据传输函数'
+    '''
+    def data_saveToDB(self):
+        # #如果数据戳中没有内容，则报错
+        # if(self.lineEdit_5_DataFlag.text()==''):
+        #     QMessageBox.critical(self,'message','请设置数据戳标记本次记录的数据')
+        # pass
+
+        #置灰
+        self.pushButton_5_SaveToCloudDB.setEnabled(False)
+        self.isReadyToTrans =True
+
+
+
+
+
+
+    # QTimer需要周期性执行向串口发送信息的内容
+    def data_send(self):
+        self.ser.write(bytes([0x01, 0x04, 0x01, 0xA1, 0x00, 0x17, 0xE0, 0x1A]))  # 向传感器发送一个一个16进制数组
+        self.data_num_sended = self.data_num_sended + 8  # 已接收的数据量+8
+        self.textBrowser_5_send.setText(str(self.data_num_sended))
+
+        # self.receive_data = self.ser.read_all()
+        # print(self.receive_data)
+
+        # 如果点击了持续数据传输，则直接调用trans_Date函数
+        # 这一步操作由data_saveToDB的标志位isReadToTrans判断
+        if self.isReadyToTrans:
+            self.trans_Data()
+
+
+        if self.checkBox_5_DisplayOutput.isChecked():
+            # 在底层数据流中显示发送和接收的信息
+            self.textBrowser_5.append("发送:01 04 01 A4 00 17 E0 1A")
+        else:
+            pass
+
+
+
+
+
+
+    #数据本地保存
+    def data_saveLocally(self):
+        pass
+
 
     # 数据分析
     def analyse(self):
@@ -439,21 +477,6 @@ class Edit(Ui_Form,QWidget):
 
 
 
-    #QTimer需要周期性执行向串口发送信息的内容
-    def data_send(self):
-        self.ser.write(bytes([0x01, 0x04, 0x01, 0xA1, 0x00, 0x17, 0xE0, 0x1A]))# 向传感器发送一个一个16进制数组
-        self.data_num_sended = self.data_num_sended + 8 #已接收的数据量+8
-        self.textBrowser_5_send.setText(str(self.data_num_sended))
-
-        # self.receive_data = self.ser.read_all()
-        # print(self.receive_data)
-
-
-        if self.checkBox_5_DisplayOutput.isChecked():
-            #在底层数据流中显示发送和接收的信息
-            self.textBrowser_5.append("发送:01 04 01 A4 00 17 E0 1A")
-        else:
-            pass
 
 
     #关闭定时发送功能
