@@ -1,3 +1,6 @@
+'''
+该测试为读取最新接受数据内容
+'''
 import pymysql
 
 if __name__ == '__main__':
