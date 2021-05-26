@@ -69,421 +69,6 @@
        <string>连接</string>
       </attribute>
       <layout class="QGridLayout" name="gridLayout">
-       <item row="0" column="0">
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QGroupBox" name="groupBox_5">
-           <property name="title">
-            <string>服务器连接</string>
-           </property>
-           <widget class="QTabWidget" name="tabWidget_2">
-            <property name="geometry">
-             <rect>
-              <x>-8</x>
-              <y>27</y>
-              <width>781</width>
-              <height>791</height>
-             </rect>
-            </property>
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="currentIndex">
-             <number>0</number>
-            </property>
-            <widget class="QWidget" name="tab_1_1">
-             <attribute name="title">
-              <string>本地服务器</string>
-             </attribute>
-             <widget class="QWidget" name="horizontalLayoutWidget_6">
-              <property name="geometry">
-               <rect>
-                <x>100</x>
-                <y>540</y>
-                <width>511</width>
-                <height>31</height>
-               </rect>
-              </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_13">
-               <property name="spacing">
-                <number>5</number>
-               </property>
-               <property name="sizeConstraint">
-                <enum>QLayout::SetDefaultConstraint</enum>
-               </property>
-               <item>
-                <widget class="QPushButton" name="pushButton_1_localMysqlConnect">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string>连接</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButton_1_closeLocalConn">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string>断开</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-             <widget class="QWidget" name="verticalLayoutWidget_4">
-              <property name="geometry">
-               <rect>
-                <x>110</x>
-                <y>150</y>
-                <width>501</width>
-                <height>321</height>
-               </rect>
-              </property>
-              <layout class="QVBoxLayout" name="verticalLayout_7">
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_7">
-                 <item>
-                  <widget class="QLabel" name="label_68">
-                   <property name="text">
-                    <string>主机名或IP地址:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_13">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Minimum</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QLineEdit" name="lineEdit_1_localHost">
-                   <property name="text">
-                    <string>localhost</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_8">
-                 <item>
-                  <widget class="QLabel" name="label_76">
-                   <property name="text">
-                    <string>数据库名称:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_11">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Minimum</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>75</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QLineEdit" name="lineEdit_1_localDBName">
-                   <property name="text">
-                    <string>bjpowernode</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_10">
-                 <item>
-                  <widget class="QLabel" name="label_69">
-                   <property name="text">
-                    <string>端口:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_12">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Minimum</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>120</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QLineEdit" name="lineEdit_1_localPort">
-                   <property name="text">
-                    <string>3306</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_11">
-                 <item>
-                  <widget class="QLabel" name="label_70">
-                   <property name="text">
-                    <string>用户名:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_10">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Minimum</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>105</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QLineEdit" name="lineEdit_1_localAccount">
-                   <property name="text">
-                    <string>root</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item>
-                <layout class="QHBoxLayout" name="horizontalLayout_12">
-                 <item>
-                  <widget class="QLabel" name="label_71">
-                   <property name="text">
-                    <string>密码:</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_9">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeType">
-                    <enum>QSizePolicy::Minimum</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>120</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                 <item>
-                  <widget class="QLineEdit" name="lineEdit_1_localPwd"/>
-                 </item>
-                </layout>
-               </item>
-              </layout>
-             </widget>
-            </widget>
-            <widget class="QWidget" name="tab_1_2">
-             <attribute name="title">
-              <string>云服务器</string>
-             </attribute>
-             <widget class="QLabel" name="label_72">
-              <property name="geometry">
-               <rect>
-                <x>410</x>
-                <y>160</y>
-                <width>141</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>主机名或IP地址:</string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="pushButton_1_cloudMysqlConnect">
-              <property name="geometry">
-               <rect>
-                <x>440</x>
-                <y>450</y>
-                <width>131</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>连接</string>
-              </property>
-             </widget>
-             <widget class="QLabel" name="label_73">
-              <property name="geometry">
-               <rect>
-                <x>410</x>
-                <y>330</y>
-                <width>72</width>
-                <height>15</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>用户名:</string>
-              </property>
-             </widget>
-             <widget class="QLabel" name="label_74">
-              <property name="geometry">
-               <rect>
-                <x>410</x>
-                <y>270</y>
-                <width>81</width>
-                <height>31</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>端口:</string>
-              </property>
-             </widget>
-             <widget class="QLabel" name="label_75">
-              <property name="geometry">
-               <rect>
-                <x>410</x>
-                <y>380</y>
-                <width>72</width>
-                <height>15</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>密码:</string>
-              </property>
-             </widget>
-             <widget class="QLineEdit" name="lineEdit_1_cloudPort">
-              <property name="geometry">
-               <rect>
-                <x>570</x>
-                <y>270</y>
-                <width>241</width>
-                <height>21</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>3306</string>
-              </property>
-             </widget>
-             <widget class="QLineEdit" name="lineEdit_1_cloudAccount">
-              <property name="geometry">
-               <rect>
-                <x>570</x>
-                <y>320</y>
-                <width>241</width>
-                <height>21</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>user01</string>
-              </property>
-             </widget>
-             <widget class="QLineEdit" name="lineEdit_1_cloudPwd">
-              <property name="geometry">
-               <rect>
-                <x>570</x>
-                <y>370</y>
-                <width>241</width>
-                <height>21</height>
-               </rect>
-              </property>
-             </widget>
-             <widget class="QLineEdit" name="lineEdit_1_cloudHost">
-              <property name="geometry">
-               <rect>
-                <x>570</x>
-                <y>170</y>
-                <width>241</width>
-                <height>21</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>rm-bp1o0649d1hoda9z2wo.mysql.rds.aliyuncs.com</string>
-              </property>
-             </widget>
-             <widget class="QLabel" name="label_78">
-              <property name="geometry">
-               <rect>
-                <x>410</x>
-                <y>215</y>
-                <width>141</width>
-                <height>31</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>数据库名称：</string>
-              </property>
-             </widget>
-             <widget class="QLineEdit" name="lineEdit_1_cloudDBName">
-              <property name="geometry">
-               <rect>
-                <x>570</x>
-                <y>220</y>
-                <width>241</width>
-                <height>21</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>vibrationsensor</string>
-              </property>
-             </widget>
-             <widget class="QPushButton" name="pushButton_1_closeCloudConn">
-              <property name="geometry">
-               <rect>
-                <x>660</x>
-                <y>450</y>
-                <width>131</width>
-                <height>41</height>
-               </rect>
-              </property>
-              <property name="text">
-               <string>断开</string>
-              </property>
-             </widget>
-            </widget>
-           </widget>
-          </widget>
-         </item>
-        </layout>
-       </item>
        <item row="0" column="1">
         <widget class="QGroupBox" name="groupBox_2">
          <property name="title">
@@ -495,7 +80,7 @@
             <x>0</x>
             <y>30</y>
             <width>771</width>
-            <height>791</height>
+            <height>797</height>
            </rect>
           </property>
           <property name="sizePolicy">
@@ -504,9 +89,12 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
           <widget class="QWidget" name="tab_10">
            <attribute name="title">
-            <string>Tab 1</string>
+            <string>串口通信</string>
            </attribute>
            <widget class="QPushButton" name="pushButton_1_DuanKaiLianJie">
             <property name="enabled">
@@ -515,7 +103,7 @@
             <property name="geometry">
              <rect>
               <x>360</x>
-              <y>490</y>
+              <y>540</y>
               <width>159</width>
               <height>28</height>
              </rect>
@@ -528,7 +116,7 @@
             <property name="geometry">
              <rect>
               <x>193</x>
-              <y>490</y>
+              <y>540</y>
               <width>160</width>
               <height>28</height>
              </rect>
@@ -611,11 +199,576 @@
              <string>串口选择:</string>
             </property>
            </widget>
+           <widget class="QWidget" name="horizontalLayoutWidget_9">
+            <property name="geometry">
+             <rect>
+              <x>190</x>
+              <y>450</y>
+              <width>331</width>
+              <height>51</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_19">
+             <item>
+              <widget class="QLabel" name="label_89">
+               <property name="text">
+                <string>地址:                  </string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_6">
+               <property name="text">
+                <string>01</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </widget>
           <widget class="QWidget" name="tab_11">
            <attribute name="title">
-            <string>Tab 2</string>
+            <string>MQTT</string>
            </attribute>
+           <widget class="QWidget" name="verticalLayoutWidget">
+            <property name="geometry">
+             <rect>
+              <x>130</x>
+              <y>170</y>
+              <width>451</width>
+              <height>301</height>
+             </rect>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_15">
+               <item>
+                <widget class="QLabel" name="label_85">
+                 <property name="text">
+                  <string>port:           </string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_2">
+                 <property name="text">
+                  <string>18831</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_14">
+               <item>
+                <widget class="QLabel" name="label_14">
+                 <property name="text">
+                  <string>IP:             </string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit">
+                 <property name="text">
+                  <string>tongxinmao.com</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_16">
+               <item>
+                <widget class="QLabel" name="label_86">
+                 <property name="text">
+                  <string>user:           </string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_3">
+                 <property name="text">
+                  <string>user01</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_17">
+               <item>
+                <widget class="QLabel" name="label_87">
+                 <property name="text">
+                  <string>password:       </string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_4">
+                 <property name="text">
+                  <string>123</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_18">
+               <item>
+                <widget class="QLabel" name="label_88">
+                 <property name="text">
+                  <string>address:        </string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_5">
+                 <property name="text">
+                  <string>01</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="horizontalLayoutWidget_2">
+            <property name="geometry">
+             <rect>
+              <x>140</x>
+              <y>500</y>
+              <width>441</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_9">
+             <item>
+              <widget class="QPushButton" name="pushButton_1_MqttConn">
+               <property name="text">
+                <string>连接</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_1_MqttClose">
+               <property name="text">
+                <string>断开</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </widget>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QGroupBox" name="">
+         <property name="title">
+          <string>服务器连接</string>
+         </property>
+         <widget class="QTabWidget" name="tabWidget_2">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>30</y>
+            <width>772</width>
+            <height>797</height>
+           </rect>
+          </property>
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="currentIndex">
+           <number>0</number>
+          </property>
+          <widget class="QWidget" name="tab_1_1">
+           <attribute name="title">
+            <string>本地服务器</string>
+           </attribute>
+           <widget class="QWidget" name="horizontalLayoutWidget_6">
+            <property name="geometry">
+             <rect>
+              <x>110</x>
+              <y>540</y>
+              <width>511</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_13">
+             <property name="spacing">
+              <number>5</number>
+             </property>
+             <property name="sizeConstraint">
+              <enum>QLayout::SetDefaultConstraint</enum>
+             </property>
+             <item>
+              <widget class="QPushButton" name="pushButton_1_localMysqlConnect">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>连接</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_1_closeLocalConn">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>断开</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="verticalLayoutWidget_4">
+            <property name="geometry">
+             <rect>
+              <x>110</x>
+              <y>150</y>
+              <width>501</width>
+              <height>321</height>
+             </rect>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_7">
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_7">
+               <item>
+                <widget class="QLabel" name="label_68">
+                 <property name="text">
+                  <string>主机名或IP地址:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_13">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Minimum</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_1_localHost">
+                 <property name="text">
+                  <string>localhost</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_8">
+               <item>
+                <widget class="QLabel" name="label_76">
+                 <property name="text">
+                  <string>数据库名称:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_11">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Minimum</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>75</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_1_localDBName">
+                 <property name="text">
+                  <string>bjpowernode</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_10">
+               <item>
+                <widget class="QLabel" name="label_69">
+                 <property name="text">
+                  <string>端口:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_12">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Minimum</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>120</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_1_localPort">
+                 <property name="text">
+                  <string>3306</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_11">
+               <item>
+                <widget class="QLabel" name="label_70">
+                 <property name="text">
+                  <string>用户名:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_10">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Minimum</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>105</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_1_localAccount">
+                 <property name="text">
+                  <string>root</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_12">
+               <item>
+                <widget class="QLabel" name="label_71">
+                 <property name="text">
+                  <string>密码:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_9">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeType">
+                  <enum>QSizePolicy::Minimum</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>120</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEdit_1_localPwd"/>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+          <widget class="QWidget" name="tab_1_2">
+           <attribute name="title">
+            <string>云服务器</string>
+           </attribute>
+           <widget class="QLabel" name="label_72">
+            <property name="geometry">
+             <rect>
+              <x>170</x>
+              <y>160</y>
+              <width>141</width>
+              <height>41</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>主机名或IP地址:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_73">
+            <property name="geometry">
+             <rect>
+              <x>170</x>
+              <y>324</y>
+              <width>81</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>用户名:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_74">
+            <property name="geometry">
+             <rect>
+              <x>170</x>
+              <y>270</y>
+              <width>81</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>端口:</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_75">
+            <property name="geometry">
+             <rect>
+              <x>170</x>
+              <y>380</y>
+              <width>72</width>
+              <height>15</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>密码:</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_1_cloudPort">
+            <property name="geometry">
+             <rect>
+              <x>330</x>
+              <y>270</y>
+              <width>241</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>3306</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_1_cloudAccount">
+            <property name="geometry">
+             <rect>
+              <x>330</x>
+              <y>320</y>
+              <width>241</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>user01</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_1_cloudPwd">
+            <property name="geometry">
+             <rect>
+              <x>330</x>
+              <y>370</y>
+              <width>241</width>
+              <height>21</height>
+             </rect>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_1_cloudHost">
+            <property name="geometry">
+             <rect>
+              <x>330</x>
+              <y>170</y>
+              <width>241</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>rm-bp1o0649d1hoda9z2wo.mysql.rds.aliyuncs.com</string>
+            </property>
+           </widget>
+           <widget class="QLabel" name="label_78">
+            <property name="geometry">
+             <rect>
+              <x>170</x>
+              <y>215</y>
+              <width>141</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>数据库名称：</string>
+            </property>
+           </widget>
+           <widget class="QLineEdit" name="lineEdit_1_cloudDBName">
+            <property name="geometry">
+             <rect>
+              <x>330</x>
+              <y>220</y>
+              <width>241</width>
+              <height>21</height>
+             </rect>
+            </property>
+            <property name="text">
+             <string>vibrationsensor</string>
+            </property>
+           </widget>
+           <widget class="QWidget" name="horizontalLayoutWidget">
+            <property name="geometry">
+             <rect>
+              <x>130</x>
+              <y>480</y>
+              <width>481</width>
+              <height>31</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <item>
+              <widget class="QPushButton" name="pushButton_1_cloudMysqlConnect">
+               <property name="text">
+                <string>连接</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButton_1_closeCloudConn">
+               <property name="text">
+                <string>断开</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
           </widget>
          </widget>
         </widget>
