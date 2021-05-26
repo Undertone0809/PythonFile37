@@ -9,6 +9,7 @@ from Main import Ui_Form
 from PyQt5.QtWidgets import QWidget,QApplication,QMessageBox,QLineEdit
 import pyqtgraph as pg
 from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 import serial
 import serial.tools.list_ports
 import sys
@@ -16,7 +17,7 @@ import pymysql
 import time
 from PyQt5.QtWebEngineWidgets import *
 
-#创建检测串口线程
+# 创建检测串口线程
 # class serialThread(QThread):
 #     oneSecondTriger = pyqtSignal()
 #
@@ -27,8 +28,7 @@ from PyQt5.QtWebEngineWidgets import *
 #         while True:
 #             self.oneSecondTriger.emit()
 #             time.sleep(1)
-
-
+#
 
 #创建Edit类,继承在Qtdesigne做好的Ui_Form，继承QWidget控件的特性
 class Edit(Ui_Form,QWidget):
@@ -84,6 +84,9 @@ class Edit(Ui_Form,QWidget):
         self.data_num_sended =0
         self.textBrowser_5_send.setText(str(self.data_num_sended))
 
+
+        #设置图标
+        self.setWindowIcon(QIcon("./images/folder_folder.png"))
         """
         这里检测串口要开多线程！！！！！
         """

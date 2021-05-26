@@ -459,5 +459,3 @@ if __name__ == '__main__':
     myshow = Pyqt5_Serial()
     myshow.show()
     sys.exit(app.exec_())
-
-

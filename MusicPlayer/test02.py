@@ -9,7 +9,7 @@ from PyQt5.QtCore import Qt, QStringListModel, QSize, QTimer
 from PyQt5.QtGui import QIcon, QPainter, QColor, QFont, QPixmap, QCursor
 # from PyQt5.QtMultimedia import *
 import pathlib as pa
-from PyQt5 import sip
+#from PyQt5 import sip
 from pygame import mixer
 
 
